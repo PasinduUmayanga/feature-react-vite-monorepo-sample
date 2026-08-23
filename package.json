@@ -1,0 +1,17 @@
+{
+  "name": "react-vite-monorepo-template",
+  "private": true,
+  "version": "0.0.0",
+  "packageManager": "pnpm@10.15.0",
+  "scripts": {
+    "dev": "pnpm --filter @template/web dev",
+    "build": "pnpm --filter @template/ui build && pnpm --filter @template/web build",
+    "typecheck": "pnpm -r --if-present typecheck",
+    "preview": "pnpm --filter @template/web preview",
+    "clean": "pnpm -r --if-present clean"
+  },
+  "engines": {
+    "node": ">=20.19.0",
+    "pnpm": ">=10.0.0"
+  }
+}
