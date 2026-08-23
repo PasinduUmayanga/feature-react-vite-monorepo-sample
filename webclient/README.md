@@ -12,6 +12,11 @@
 
 This folder contains two React applications and a shared component package, managed as a pnpm workspace.
 
+## Live Demo
+
+- [Public web application](https://feature-react-vite-monorepo-sample-theta.vercel.app/)
+- [Admin application](https://feature-react-vite-monorepo-sample.vercel.app/)
+
 ## Project structure
 
 ```text
