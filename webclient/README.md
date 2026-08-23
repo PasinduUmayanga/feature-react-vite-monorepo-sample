@@ -8,6 +8,7 @@
 ![Vite](https://img.shields.io/badge/Vite-8.2-646CFF?logo=vite&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-7.0-3178C6?logo=typescript&logoColor=white)
 [![Last commit](https://img.shields.io/github/last-commit/Mahadenamuththa/feature-react-vite-monorepo-sample)](https://github.com/Mahadenamuththa/feature-react-vite-monorepo-sample/commits/main)
+[![License](https://img.shields.io/github/license/Mahadenamuththa/feature-react-vite-monorepo-sample)](https://github.com/Mahadenamuththa/feature-react-vite-monorepo-sample/blob/main/LICENSE)
 
 This folder contains two React applications and a shared component package, managed as a pnpm workspace.
 
@@ -104,7 +105,7 @@ Do not use `npm install` or `yarn`. The repository uses `pnpm-lock.yaml` as its 
 For repeatable CI installations that must not modify the lockfile, use:
 
 ```powershell
-pnpm install --frozen-lockfile
+pnpm install --frozen-lockfile --store-dir .pnpm-store
 ```
 
 ## 5. Run the applications separately
@@ -245,6 +246,8 @@ Successful builds publish two ZIP artifacts:
 
 - `web` from `apps/web/dist`
 - `admin` from `apps/admin/dist`
+
+AppVeyor caches `webclient/.pnpm-store` and invalidates that cache whenever `pnpm-lock.yaml` changes. The dependency links are still recreated on every build from the frozen lockfile.
 
 Keep `appveyor.yml` at the repository root because AppVeyor discovers its build configuration there.
 
