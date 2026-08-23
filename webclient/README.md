@@ -20,6 +20,15 @@ This folder contains two React applications and a shared component package, mana
 - [Public web application](https://feature-react-vite-monorepo-sample-theta.vercel.app/)
 - [Admin application](https://feature-react-vite-monorepo-sample.vercel.app/)
 
+The admin application uses [DummyJSON authentication](https://dummyjson.com/docs/auth) for demonstration:
+
+```text
+Username: emilys
+Password: emilyspass
+```
+
+This is a public fake account and API intended for prototypes. It is not a production authentication or authorization system.
+
 ## Project structure
 
 ```text

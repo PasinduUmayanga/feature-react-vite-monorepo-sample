@@ -1,8 +1,7 @@
 import { LoginForm, type LoginCredentials } from '@template/ui'
 
 export function App() {
-  function handleLogin(credentials: LoginCredentials) {
-    console.info('Web login submitted for', credentials.email)
+  function handleLogin(_credentials: LoginCredentials) {
   }
 
   return (
