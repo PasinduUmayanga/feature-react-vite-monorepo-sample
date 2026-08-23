@@ -4,6 +4,7 @@ image: Visual Studio 2022
 
 environment:
   nodejs_version: "22"
+  COREPACK_ENABLE_DOWNLOAD_PROMPT: "0"
 
 init:
   - git config --global core.autocrlf input
@@ -14,11 +15,12 @@ cache:
 install:
   - ps: Install-Product node $env:nodejs_version x64
   - corepack enable
-  - ps: Set-Location webclient; pnpm install --frozen-lockfile --store-dir .pnpm-store
+  - corepack prepare pnpm@10.15.0 --activate
+  - cmd: cd /d "%APPVEYOR_BUILD_FOLDER%\webclient" && pnpm install --frozen-lockfile --store-dir .pnpm-store
 
 build_script:
-  - ps: Set-Location webclient; pnpm typecheck
-  - ps: Set-Location webclient; pnpm build
+  - cmd: cd /d "%APPVEYOR_BUILD_FOLDER%\webclient" && pnpm typecheck
+  - cmd: cd /d "%APPVEYOR_BUILD_FOLDER%\webclient" && pnpm build
 
 test: off
 

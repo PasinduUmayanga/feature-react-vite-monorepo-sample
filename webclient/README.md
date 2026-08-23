@@ -234,7 +234,7 @@ Internal workspace dependencies must use the `workspace:*` protocol. Both applic
 
 ## AppVeyor CI
 
-The repository-root `appveyor.yml` runs the frontend build on the Visual Studio 2022 worker image with Node.js 22. AppVeyor performs the following commands from `webclient`:
+The repository-root `appveyor.yml` runs the frontend build on the Visual Studio 2022 worker image with Node.js 22. It enables Corepack, activates the pinned pnpm version without an interactive download prompt, and runs pnpm through the Windows command shell. Each step resolves `webclient` from AppVeyor's absolute checkout directory so working-directory changes cannot produce a nested `webclient/webclient` path. AppVeyor then performs the following commands from `webclient`:
 
 ```powershell
 pnpm install --frozen-lockfile
