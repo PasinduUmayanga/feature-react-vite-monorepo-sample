@@ -8,10 +8,13 @@ environment:
 init:
   - git config --global core.autocrlf input
 
+cache:
+  - webclient/.pnpm-store -> webclient/pnpm-lock.yaml
+
 install:
   - ps: Install-Product node $env:nodejs_version x64
   - corepack enable
-  - ps: Set-Location webclient; pnpm install --frozen-lockfile
+  - ps: Set-Location webclient; pnpm install --frozen-lockfile --store-dir .pnpm-store
 
 build_script:
   - ps: Set-Location webclient; pnpm typecheck
