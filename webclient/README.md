@@ -1,40 +1,254 @@
-# React + Vite Monorepo Template
+# React + Vite Monorepo
 
-A small, production-ready starting point for React applications built with Vite and pnpm workspaces.
+This folder contains two React applications and a shared component package, managed as a pnpm workspace.
 
-## Structure
+## Project structure
 
 ```text
-apps/
-  admin/        React + Vite administration application
-  web/          React + Vite application
-packages/
-  ui/           Shared React component library
+webclient/
+├─ apps/
+│  ├─ web/       Public web application
+│  └─ admin/     Administration application
+├─ packages/
+│  └─ ui/        Components shared by web and admin
+├─ package.json
+├─ pnpm-lock.yaml
+└─ pnpm-workspace.yaml
 ```
 
-## Requirements
+Run all commands in this README from the `webclient` directory.
 
-- Node.js 20.19+ or 22.12+
-- pnpm 10+
+## 1. Install Node.js
 
-## Getting started
+Install one of the supported Node.js versions:
 
-```bash
+- Node.js 20.19 or newer
+- Node.js 22.12 or newer
+
+### Option A: Install Node.js directly
+
+Download and install an LTS release from [nodejs.org](https://nodejs.org/). Close and reopen PowerShell after installation.
+
+### Option B: Use NVM for Windows
+
+If you use [NVM for Windows](https://github.com/coreybutler/nvm-windows), install and activate a supported Node version. For example:
+
+```powershell
+nvm install 22
+nvm use 22
+```
+
+Verify that Node and npm are available:
+
+```powershell
+node --version
+npm --version
+```
+
+The Node version must satisfy the requirement above before continuing.
+
+## 2. Enable pnpm with Corepack
+
+Node includes Corepack, which installs and selects the pnpm version declared in `package.json`. This project currently pins pnpm `10.15.0`.
+
+Enable the package-manager command shims:
+
+```powershell
 corepack enable
+```
+
+Then verify pnpm:
+
+```powershell
+pnpm --version
+```
+
+The output should be `10.15.0`. If PowerShell still reports that `pnpm` is not recognized, close PowerShell, open a new window, and run the commands again:
+
+```powershell
+corepack enable
+pnpm --version
+```
+
+When using NVM for Windows, switching Node versions may require running `corepack enable` again.
+
+## 3. Open the frontend directory
+
+From the repository root:
+
+```powershell
+cd webclient
+```
+
+If your terminal is already inside `webclient`, do not run this command again.
+
+## 4. Install dependencies
+
+Install all application and shared-package dependencies with one command:
+
+```powershell
 pnpm install
+```
+
+Do not use `npm install` or `yarn`. The repository uses `pnpm-lock.yaml` as its only dependency lockfile.
+
+For repeatable CI installations that must not modify the lockfile, use:
+
+```powershell
+pnpm install --frozen-lockfile
+```
+
+## 5. Run the applications separately
+
+Each application runs independently. Open a separate terminal for each application you want to run, and ensure each terminal is inside `webclient`.
+
+### Run the public web application
+
+```powershell
 pnpm dev
 ```
 
-The development server runs at `http://localhost:5173`.
+Open [http://localhost:5173](http://localhost:5173).
 
-## Scripts
+The explicit workspace command is equivalent:
 
-- `pnpm dev` starts the web application.
-- `pnpm dev:admin` starts the admin application on port 5174.
-- `pnpm build` type-checks the shared package and builds the app.
-- `pnpm typecheck` checks every workspace without emitting files.
-- `pnpm preview` previews the production build.
-- `pnpm preview:admin` previews the admin production build.
-- `pnpm clean` removes generated build output.
+```powershell
+pnpm --filter @template/web dev
+```
 
-Add new applications under `apps/` and shared packages under `packages/`; pnpm discovers both through `pnpm-workspace.yaml`.
+### Run the admin application
+
+```powershell
+pnpm dev:admin
+```
+
+Open [http://localhost:5174](http://localhost:5174).
+
+The explicit workspace command is equivalent:
+
+```powershell
+pnpm --filter @template/admin dev
+```
+
+### Run both applications
+
+Use two PowerShell windows:
+
+Terminal 1:
+
+```powershell
+cd webclient
+pnpm dev
+```
+
+Terminal 2:
+
+```powershell
+cd webclient
+pnpm dev:admin
+```
+
+Stop a development server with `Ctrl+C` in its terminal.
+
+## Build and verify
+
+Type-check every workspace:
+
+```powershell
+pnpm typecheck
+```
+
+Build the shared UI package and both applications:
+
+```powershell
+pnpm build
+```
+
+Build only one application:
+
+```powershell
+pnpm --filter @template/web build
+pnpm --filter @template/admin build
+```
+
+The production output is generated in each application's `dist` directory.
+
+## Preview production builds
+
+Build the projects first with `pnpm build`, then preview either application:
+
+```powershell
+# Public web application
+pnpm preview
+
+# Admin application
+pnpm preview:admin
+```
+
+Run the preview commands in separate terminals if both previews are needed simultaneously.
+
+## Add dependencies
+
+Add a dependency only to the application that uses it:
+
+```powershell
+pnpm --filter @template/web add <package-name>
+pnpm --filter @template/admin add <package-name>
+```
+
+Add a development dependency to a specific workspace:
+
+```powershell
+pnpm --filter @template/web add -D <package-name>
+```
+
+Add tooling to the workspace root:
+
+```powershell
+pnpm add -Dw <package-name>
+```
+
+Internal workspace dependencies must use the `workspace:*` protocol. Both applications already consume the shared UI package as `@template/ui`.
+
+## Other commands
+
+| Command | Purpose |
+| --- | --- |
+| `pnpm dev` | Start the public web app |
+| `pnpm dev:admin` | Start the admin app |
+| `pnpm typecheck` | Type-check all workspaces |
+| `pnpm build` | Build the UI package and both apps |
+| `pnpm preview` | Preview the public web production build |
+| `pnpm preview:admin` | Preview the admin production build |
+| `pnpm clean` | Remove generated workspace build output |
+
+## Troubleshooting
+
+### `pnpm` is not recognized
+
+```powershell
+corepack enable
+pnpm --version
+```
+
+If it remains unavailable, reopen PowerShell. Confirm that Node is active with `node --version`. NVM users should run `nvm use <version>` before `corepack enable`.
+
+### A development port is already in use
+
+Stop the existing process with `Ctrl+C` in the terminal where it is running. The default ports are `5173` for web and `5174` for admin.
+
+### Dependencies or workspace links are missing
+
+Run this from `webclient`:
+
+```powershell
+pnpm install
+```
+
+### Clean generated output
+
+```powershell
+pnpm clean
+```
+
+Then reinstall or rebuild as needed.
