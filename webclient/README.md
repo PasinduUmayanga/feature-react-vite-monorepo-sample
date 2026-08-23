@@ -7,8 +7,8 @@
 ![React](https://img.shields.io/badge/React-19.2-61DAFB?logo=react&logoColor=black)
 ![Vite](https://img.shields.io/badge/Vite-8.2-646CFF?logo=vite&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-7.0-3178C6?logo=typescript&logoColor=white)
-[![Last commit](https://img.shields.io/github/last-commit/Mahadenamuththa/feature-react-vite-monorepo-sample)](https://github.com/Mahadenamuththa/feature-react-vite-monorepo-sample/commits/main)
-[![License](https://img.shields.io/github/license/Mahadenamuththa/feature-react-vite-monorepo-sample)](https://github.com/Mahadenamuththa/feature-react-vite-monorepo-sample/blob/main/LICENSE)
+[![Last commit](https://img.shields.io/github/last-commit/PasinduUmayanga/feature-react-vite-monorepo-sample)](https://github.com/PasinduUmayanga/feature-react-vite-monorepo-sample/commits/main)
+[![License](https://img.shields.io/github/license/PasinduUmayanga/feature-react-vite-monorepo-sample)](https://github.com/PasinduUmayanga/feature-react-vite-monorepo-sample/blob/main/LICENSE)
 
 This folder contains two React applications and a shared component package, managed as a pnpm workspace.
 
@@ -281,3 +281,7 @@ pnpm clean
 ```
 
 Then reinstall or rebuild as needed.
+
+## License
+
+This project is available under the [MIT License](../LICENSE).
