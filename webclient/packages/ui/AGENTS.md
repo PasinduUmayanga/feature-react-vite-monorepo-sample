@@ -27,12 +27,13 @@ These instructions apply to `packages/ui` and extend the repository-level develo
 
 ## Verification
 
-From the repository root, run:
+From the `webclient/` directory, run:
 
 ```bash
 pnpm --filter @template/ui typecheck
 pnpm --filter @template/ui build
 pnpm --filter @template/web build
+pnpm --filter @template/admin build
 ```
 
-The web build verifies that the package remains consumable through its public workspace import.
+The application builds verify that the package remains consumable through its public workspace import in both clients.

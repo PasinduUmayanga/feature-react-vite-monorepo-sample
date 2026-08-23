@@ -32,7 +32,7 @@ These instructions apply to `apps/web` and extend the repository-level developme
 
 ## Verification
 
-From the repository root, run:
+From the `webclient/` directory, run:
 
 ```bash
 pnpm --filter @template/web typecheck
