@@ -5,6 +5,7 @@ The frontend project lives entirely under `webclient/`. Read `webclient/AGENTS.m
 ## Top-level layout
 
 - `webclient/`: React, Vite, TypeScript, and pnpm monorepo.
+- `appveyor.yml`: Windows CI configuration for validating and building the frontend.
 - `.gitignore`: repository-wide ignore rules, including generated frontend output.
 - `.agents/`: repository-level agent metadata; do not treat it as application source.
 
@@ -25,4 +26,5 @@ Do not create frontend package manifests, lockfiles, applications, or shared pac
 
 - Keep repository-level files at the top level only when they apply beyond the frontend workspace.
 - Preserve `.git`, `.gitignore`, and `.agents/` when reorganizing `webclient/`.
+- Keep AppVeyor commands rooted in `webclient/` and use the package-manager version declared there.
 - Update both this file and `webclient/AGENTS.md` if the top-level project boundary changes.

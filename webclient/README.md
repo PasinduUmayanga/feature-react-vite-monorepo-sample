@@ -222,6 +222,23 @@ Internal workspace dependencies must use the `workspace:*` protocol. Both applic
 | `pnpm preview:admin` | Preview the admin production build |
 | `pnpm clean` | Remove generated workspace build output |
 
+## AppVeyor CI
+
+The repository-root `appveyor.yml` runs the frontend build on the Visual Studio 2022 worker image with Node.js 22. AppVeyor performs the following commands from `webclient`:
+
+```powershell
+pnpm install --frozen-lockfile
+pnpm typecheck
+pnpm build
+```
+
+Successful builds publish two ZIP artifacts:
+
+- `web` from `apps/web/dist`
+- `admin` from `apps/admin/dist`
+
+Keep `appveyor.yml` at the repository root because AppVeyor discovers its build configuration there.
+
 ## Troubleshooting
 
 ### `pnpm` is not recognized
