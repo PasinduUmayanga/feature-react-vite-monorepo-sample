@@ -1,5 +1,14 @@
 # React + Vite Monorepo
 
+[![Build status](https://ci.appveyor.com/api/projects/status/17uy8a50u77cv2u7/branch/main?svg=true)](https://ci.appveyor.com/project/Mahadenamuththa/feature-react-vite-monorepo-sample/branch/main)
+[![Build History](https://img.shields.io/badge/AppVeyor-Build%20History-blue?logo=appveyor)](https://ci.appveyor.com/project/Mahadenamuththa/feature-react-vite-monorepo-sample/history)
+![Node.js](https://img.shields.io/badge/Node.js-22-339933?logo=node.js&logoColor=white)
+![pnpm](https://img.shields.io/badge/pnpm-10.15-F69220?logo=pnpm&logoColor=white)
+![React](https://img.shields.io/badge/React-19.2-61DAFB?logo=react&logoColor=black)
+![Vite](https://img.shields.io/badge/Vite-8.2-646CFF?logo=vite&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-7.0-3178C6?logo=typescript&logoColor=white)
+[![Last commit](https://img.shields.io/github/last-commit/Mahadenamuththa/feature-react-vite-monorepo-sample)](https://github.com/Mahadenamuththa/feature-react-vite-monorepo-sample/commits/main)
+
 This folder contains two React applications and a shared component package, managed as a pnpm workspace.
 
 ## Project structure
