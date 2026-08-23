@@ -1,0 +1,153 @@
+name: Vercel deployments
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      production:
+        description: Deploy the selected revision to production
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: vercel-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate monorepo
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: webclient
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.15.0
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: webclient/.node-version
+          cache: pnpm
+          cache-dependency-path: webclient/pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Type-check workspaces
+        run: pnpm typecheck
+
+      - name: Build workspaces
+        run: pnpm build
+
+  deploy-web:
+    name: Deploy web
+    needs: validate
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    environment: ${{ ((github.ref == 'refs/heads/main' && github.event_name == 'push') || (github.event_name == 'workflow_dispatch' && inputs.production)) && 'production' || 'preview' }}
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_WEB_PROJECT_ID }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.15.0
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: webclient/.node-version
+          cache: pnpm
+          cache-dependency-path: webclient/pnpm-lock.yaml
+
+      - name: Install dependencies
+        working-directory: webclient
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Build and deploy web
+        shell: bash
+        run: |
+          if [[ "$GITHUB_REF" == "refs/heads/main" && "$GITHUB_EVENT_NAME" == "push" ]] || [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" && "${{ inputs.production }}" == "true" ]]; then
+            environment="production"
+            production_flag="--prod"
+          else
+            environment="preview"
+            production_flag=""
+          fi
+
+          vercel pull --yes --environment="$environment" --token="$VERCEL_TOKEN"
+          vercel build $production_flag --token="$VERCEL_TOKEN"
+          deployment_url=$(vercel deploy --prebuilt $production_flag --token="$VERCEL_TOKEN")
+          echo "### Web deployment" >> "$GITHUB_STEP_SUMMARY"
+          echo "$deployment_url" >> "$GITHUB_STEP_SUMMARY"
+
+  deploy-admin:
+    name: Deploy admin
+    needs: validate
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    environment: ${{ ((github.ref == 'refs/heads/main' && github.event_name == 'push') || (github.event_name == 'workflow_dispatch' && inputs.production)) && 'production' || 'preview' }}
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_ADMIN_PROJECT_ID }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.15.0
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: webclient/.node-version
+          cache: pnpm
+          cache-dependency-path: webclient/pnpm-lock.yaml
+
+      - name: Install dependencies
+        working-directory: webclient
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Build and deploy admin
+        shell: bash
+        run: |
+          if [[ "$GITHUB_REF" == "refs/heads/main" && "$GITHUB_EVENT_NAME" == "push" ]] || [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" && "${{ inputs.production }}" == "true" ]]; then
+            environment="production"
+            production_flag="--prod"
+          else
+            environment="preview"
+            production_flag=""
+          fi
+
+          vercel pull --yes --environment="$environment" --token="$VERCEL_TOKEN"
+          vercel build $production_flag --token="$VERCEL_TOKEN"
+          deployment_url=$(vercel deploy --prebuilt $production_flag --token="$VERCEL_TOKEN")
+          echo "### Admin deployment" >> "$GITHUB_STEP_SUMMARY"
+          echo "$deployment_url" >> "$GITHUB_STEP_SUMMARY"

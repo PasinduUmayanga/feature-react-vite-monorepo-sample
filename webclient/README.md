@@ -260,6 +260,26 @@ AppVeyor caches `webclient/.pnpm-store` and invalidates that cache whenever `pnp
 
 Keep `appveyor.yml` at the repository root because AppVeyor discovers its build configuration there.
 
+## Vercel deployments through GitHub Actions
+
+The repository-root `.github/workflows/vercel.yml` validates the complete monorepo and deploys the web and admin applications as separate Vercel projects.
+
+- Pull requests from this repository create preview deployments.
+- Pushes to `main` create production deployments.
+- Manual runs create previews unless the `production` input is enabled.
+- Pull requests from forks are validated but do not deploy because repository secrets are unavailable.
+
+Configure these encrypted GitHub Actions secrets before running the deployment jobs:
+
+```text
+VERCEL_TOKEN
+VERCEL_ORG_ID
+VERCEL_WEB_PROJECT_ID
+VERCEL_ADMIN_PROJECT_ID
+```
+
+Create two Vercel projects with root directories `webclient/apps/web` and `webclient/apps/admin`. Both projects must allow build access to source files outside their root directory so they can consume `webclient/packages/ui`. If Vercel's built-in Git deployments are enabled for these projects, disable them to avoid duplicate deployments alongside GitHub Actions.
+
 ## Troubleshooting
 
 ### `pnpm` is not recognized
