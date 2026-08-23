@@ -1,9 +1,15 @@
+import { useState } from 'react'
 import { LoginForm, type LoginCredentials } from '@template/ui'
+import { UserManagementPage } from './features/users/pages/UserManagementPage'
 
 export function App() {
-  function handleLogin(credentials: LoginCredentials) {
-    console.info('Admin login submitted for', credentials.email)
+  const [signedIn, setSignedIn] = useState(false)
+
+  function handleLogin(_credentials: LoginCredentials) {
+    setSignedIn(true)
   }
+
+  if (signedIn) return <UserManagementPage onSignOut={() => setSignedIn(false)} />
 
   return (
     <main className="admin-login">
