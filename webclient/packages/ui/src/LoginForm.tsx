@@ -3,7 +3,7 @@ import { Button } from './Button'
 import './login-form.css'
 
 export interface LoginCredentials {
-  email: string
+  identifier: string
   password: string
   remember: boolean
 }
@@ -13,7 +13,13 @@ export interface LoginFormProps extends Omit<HTMLAttributes<HTMLDivElement>, 'on
   title: string
   description?: string
   submitLabel?: string
+  identifierLabel?: string
+  identifierPlaceholder?: string
+  identifierType?: 'email' | 'text'
+  identifierAutoComplete?: 'email' | 'username'
   forgotPasswordHref?: string
+  errorMessage?: string | null
+  isSubmitting?: boolean
   onSubmit: (credentials: LoginCredentials) => void | Promise<void>
 }
 
@@ -22,7 +28,13 @@ export function LoginForm({
   title,
   description,
   submitLabel = 'Sign in',
+  identifierLabel = 'Email address',
+  identifierPlaceholder = 'you@example.com',
+  identifierType = 'email',
+  identifierAutoComplete = 'email',
   forgotPasswordHref,
+  errorMessage,
+  isSubmitting = false,
   onSubmit,
   className = '',
   ...props
@@ -36,7 +48,7 @@ export function LoginForm({
     const data = new FormData(event.currentTarget)
 
     void onSubmit({
-      email: String(data.get('email') ?? ''),
+      identifier: String(data.get('identifier') ?? ''),
       password: String(data.get('password') ?? ''),
       remember: data.get('remember') === 'on',
     })
@@ -52,8 +64,8 @@ export function LoginForm({
 
       <form className="login-form" onSubmit={handleSubmit}>
         <div className="login-form__field">
-          <label htmlFor={emailId}>Email address</label>
-          <input id={emailId} name="email" type="email" autoComplete="email" placeholder="you@example.com" required />
+          <label htmlFor={emailId}>{identifierLabel}</label>
+          <input id={emailId} name="identifier" type={identifierType} autoComplete={identifierAutoComplete} placeholder={identifierPlaceholder} disabled={isSubmitting} required />
         </div>
 
         <div className="login-form__field">
@@ -61,15 +73,19 @@ export function LoginForm({
             <label htmlFor={passwordId}>Password</label>
             {forgotPasswordHref && <a href={forgotPasswordHref}>Forgot password?</a>}
           </div>
-          <input id={passwordId} name="password" type="password" autoComplete="current-password" placeholder="Enter your password" required />
+          <input id={passwordId} name="password" type="password" autoComplete="current-password" placeholder="Enter your password" disabled={isSubmitting} required />
         </div>
 
         <label className="login-form__remember" htmlFor={rememberId}>
-          <input id={rememberId} name="remember" type="checkbox" />
+          <input id={rememberId} name="remember" type="checkbox" disabled={isSubmitting} />
           <span>Keep me signed in</span>
         </label>
 
-        <Button className="login-form__submit" type="submit">{submitLabel}</Button>
+        {errorMessage && <p className="login-form__error" role="alert">{errorMessage}</p>}
+
+        <Button className="login-form__submit" type="submit" disabled={isSubmitting} aria-busy={isSubmitting}>
+          {isSubmitting ? 'Signing in…' : submitLabel}
+        </Button>
       </form>
     </div>
   )
