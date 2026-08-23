@@ -27,7 +27,7 @@ These instructions apply to `apps/admin` and extend the repository-level develop
 
 ## Verification
 
-From the repository root, run:
+From the `webclient/` directory, run:
 
 ```bash
 pnpm --filter @template/admin typecheck

@@ -1,6 +1,6 @@
 # Development Guide
 
-This repository is a React and Vite monorepo managed with pnpm workspaces. Instructions in a more deeply nested `AGENTS.md` override this file for that directory.
+This directory is the frontend root: a React and Vite monorepo managed with pnpm workspaces. The repository-level `../AGENTS.md` defines the top-level project boundary. Instructions in a more deeply nested `AGENTS.md` override this file for that directory.
 
 ## Repository layout
 
@@ -13,9 +13,9 @@ This repository is a React and Vite monorepo managed with pnpm workspaces. Instr
 ## Tooling
 
 - Use Node.js 20.19 or newer.
-- Use the pnpm version declared in the root `package.json` through Corepack.
+- Use the pnpm version declared in `webclient/package.json` through Corepack.
 - Run `corepack enable` once if `pnpm` is unavailable.
-- Run commands from the repository root unless a command explicitly targets a workspace.
+- Run pnpm commands from the `webclient/` directory unless a command explicitly targets a workspace.
 - Do not add npm or Yarn lockfiles. `pnpm-lock.yaml` is the only dependency lockfile.
 - Use `workspace:*` for dependencies between packages in this repository.
 
@@ -53,8 +53,8 @@ pnpm --filter @template/ui <command>
 
 1. Create it below `apps/` or `packages/` with a unique scoped package name.
 2. Add its scripts and TypeScript configuration.
-3. Add a root TypeScript project reference when it participates in repository type-checking.
-4. Add or update root scripts only when the new workspace must be part of the default workflow.
+3. Add a reference to `webclient/tsconfig.json` when it participates in workspace type-checking.
+4. Add or update scripts in `webclient/package.json` only when the new workspace must be part of the default workflow.
 5. Run `pnpm install` to update `pnpm-lock.yaml`.
 
 ## Verification
