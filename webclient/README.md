@@ -2,6 +2,9 @@
 
 [![Build status](https://ci.appveyor.com/api/projects/status/17uy8a50u77cv2u7/branch/main?svg=true)](https://ci.appveyor.com/project/Mahadenamuththa/feature-react-vite-monorepo-sample/branch/main)
 [![Build History](https://img.shields.io/badge/AppVeyor-Build%20History-blue?logo=appveyor)](https://ci.appveyor.com/project/Mahadenamuththa/feature-react-vite-monorepo-sample/history)
+[![Vercel Deployments](https://github.com/PasinduUmayanga/feature-react-vite-monorepo-sample/actions/workflows/vercel.yml/badge.svg?branch=main)](https://github.com/PasinduUmayanga/feature-react-vite-monorepo-sample/actions/workflows/vercel.yml)
+[![Web on Vercel](https://img.shields.io/badge/Vercel-Web-000000?logo=vercel)](https://feature-react-vite-monorepo-sample-theta.vercel.app/)
+[![Admin on Vercel](https://img.shields.io/badge/Vercel-Admin-000000?logo=vercel)](https://feature-react-vite-monorepo-sample.vercel.app/)
 ![Node.js](https://img.shields.io/badge/Node.js-24.19.0-339933?logo=node.js&logoColor=white)
 ![pnpm](https://img.shields.io/badge/pnpm-10.15-F69220?logo=pnpm&logoColor=white)
 ![React](https://img.shields.io/badge/React-19.2-61DAFB?logo=react&logoColor=black)
