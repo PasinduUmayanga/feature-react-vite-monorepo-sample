@@ -56,7 +56,19 @@ npm --version
 
 ## 2. Enable pnpm with Corepack
 
-Node includes Corepack, which installs and selects the pnpm version declared in `package.json`. This project currently pins pnpm `10.15.0`.
+Corepack installs and selects the pnpm version declared in `package.json`. This project currently pins pnpm `10.15.0`. Some Node.js 24 distributions include Corepack, but minimal and CI installations may require installing it separately.
+
+First check whether Corepack is available:
+
+```powershell
+corepack --version
+```
+
+If PowerShell reports that `corepack` is not recognized, install the project-tested Corepack version:
+
+```powershell
+npm install --global corepack@0.35.0
+```
 
 Enable the package-manager command shims:
 
@@ -231,7 +243,7 @@ Internal workspace dependencies must use the `workspace:*` protocol. Both applic
 
 ## AppVeyor CI
 
-The repository-root `appveyor.yml` runs the frontend build on the Visual Studio 2022 worker image with Node.js 24.19.0. It enables Corepack, activates the pinned pnpm version without an interactive download prompt, and runs pnpm through the Windows command shell. Each step resolves `webclient` from AppVeyor's absolute checkout directory so working-directory changes cannot produce a nested `webclient/webclient` path. AppVeyor then performs the following commands from `webclient`:
+The repository-root `appveyor.yml` runs the frontend build on the Visual Studio 2022 worker image with Node.js 24.19.0. Because AppVeyor's Node package omits Corepack, CI installs the pinned pnpm 10.15.0 release directly through npm. It then runs pnpm through the Windows command shell. Each step resolves `webclient` from AppVeyor's absolute checkout directory so working-directory changes cannot produce a nested `webclient/webclient` path. AppVeyor then performs the following commands from `webclient`:
 
 ```powershell
 pnpm install --frozen-lockfile
@@ -253,6 +265,7 @@ Keep `appveyor.yml` at the repository root because AppVeyor discovers its build 
 ### `pnpm` is not recognized
 
 ```powershell
+npm install --global corepack@0.35.0
 corepack enable
 pnpm --version
 ```
