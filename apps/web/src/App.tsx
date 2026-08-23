@@ -1,19 +1,26 @@
-import { Button } from '@template/ui'
+import { LoginForm, type LoginCredentials } from '@template/ui'
 
 export function App() {
+  function handleLogin(credentials: LoginCredentials) {
+    console.info('Web login submitted for', credentials.email)
+  }
+
   return (
     <main className="page-shell">
-      <section className="hero">
-        <span className="eyebrow">React · Vite · Workspaces</span>
-        <h1>A clean monorepo, ready for your next idea.</h1>
-        <p>
-          Build applications in <code>apps</code>, share components from <code>packages</code>,
-          and manage everything with one npm install.
-        </p>
-        <Button onClick={() => window.open('https://vite.dev/guide/', '_blank')}>
-          Explore Vite
-        </Button>
-      </section>
+      <div className="login-layout">
+        <section className="welcome" aria-labelledby="welcome-title">
+          <span>Kepler workspace</span>
+          <h2 id="welcome-title">Welcome back to your next big idea.</h2>
+          <p>Sign in to continue building, collaborating, and shipping.</p>
+        </section>
+        <LoginForm
+          eyebrow="Member access"
+          title="Sign in"
+          description="Enter your account details to continue."
+          forgotPasswordHref="#forgot-password"
+          onSubmit={handleLogin}
+        />
+      </div>
     </main>
   )
 }
