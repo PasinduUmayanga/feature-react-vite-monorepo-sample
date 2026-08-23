@@ -5,6 +5,7 @@ This repository is a React and Vite monorepo managed with pnpm workspaces. Instr
 ## Repository layout
 
 - `apps/web`: browser application built with React, TypeScript, and Vite.
+- `apps/admin`: administration application built with React, TypeScript, and Vite.
 - `packages/ui`: shared React components consumed by workspace applications.
 - `pnpm-workspace.yaml`: workspace discovery and dependency build policy.
 - `tsconfig.json`: root TypeScript project references.
@@ -33,6 +34,7 @@ Target one workspace when appropriate:
 
 ```bash
 pnpm --filter @template/web <command>
+pnpm --filter @template/admin <command>
 pnpm --filter @template/ui <command>
 ```
 

@@ -5,9 +5,11 @@
   "packageManager": "pnpm@10.15.0",
   "scripts": {
     "dev": "pnpm --filter @template/web dev",
-    "build": "pnpm --filter @template/ui build && pnpm --filter @template/web build",
+    "dev:admin": "pnpm --filter @template/admin dev",
+    "build": "pnpm --filter @template/ui build && pnpm --filter @template/web build && pnpm --filter @template/admin build",
     "typecheck": "pnpm -r --if-present typecheck",
     "preview": "pnpm --filter @template/web preview",
+    "preview:admin": "pnpm --filter @template/admin preview",
     "clean": "pnpm -r --if-present clean"
   },
   "engines": {
