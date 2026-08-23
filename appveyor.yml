@@ -3,7 +3,7 @@ version: 1.0.{build}
 image: Visual Studio 2022
 
 environment:
-  nodejs_version: "22"
+  nodejs_version: "24.19.0"
 
 init:
   - git config --global core.autocrlf input
@@ -12,13 +12,13 @@ cache:
   - webclient/.pnpm-store -> webclient/pnpm-lock.yaml
 
 install:
-  - ps: Install-Product node $env:nodejs_version x64
-  - corepack enable
-  - ps: Set-Location webclient; pnpm install --frozen-lockfile --store-dir .pnpm-store
+  - ps: Update-NodeJsInstallation $env:nodejs_version x64
+  - npm install --global pnpm@10.15.0
+  - cmd: cd /d "%APPVEYOR_BUILD_FOLDER%\webclient" && pnpm install --frozen-lockfile --store-dir .pnpm-store
 
 build_script:
-  - ps: Set-Location webclient; pnpm typecheck
-  - ps: Set-Location webclient; pnpm build
+  - cmd: cd /d "%APPVEYOR_BUILD_FOLDER%\webclient" && pnpm typecheck
+  - cmd: cd /d "%APPVEYOR_BUILD_FOLDER%\webclient" && pnpm build
 
 test: off
 
