@@ -13,7 +13,7 @@
     "clean": "pnpm -r --if-present clean"
   },
   "engines": {
-    "node": ">=20.19.0",
+    "node": ">=24.19.0 <25",
     "pnpm": ">=10.0.0"
   }
 }

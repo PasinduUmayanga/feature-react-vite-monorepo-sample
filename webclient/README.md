@@ -2,7 +2,7 @@
 
 [![Build status](https://ci.appveyor.com/api/projects/status/17uy8a50u77cv2u7/branch/main?svg=true)](https://ci.appveyor.com/project/Mahadenamuththa/feature-react-vite-monorepo-sample/branch/main)
 [![Build History](https://img.shields.io/badge/AppVeyor-Build%20History-blue?logo=appveyor)](https://ci.appveyor.com/project/Mahadenamuththa/feature-react-vite-monorepo-sample/history)
-![Node.js](https://img.shields.io/badge/Node.js-22-339933?logo=node.js&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-24.19.0-339933?logo=node.js&logoColor=white)
 ![pnpm](https://img.shields.io/badge/pnpm-10.15-F69220?logo=pnpm&logoColor=white)
 ![React](https://img.shields.io/badge/React-19.2-61DAFB?logo=react&logoColor=black)
 ![Vite](https://img.shields.io/badge/Vite-8.2-646CFF?logo=vite&logoColor=white)
@@ -30,22 +30,19 @@ Run all commands in this README from the `webclient` directory.
 
 ## 1. Install Node.js
 
-Install one of the supported Node.js versions:
-
-- Node.js 20.19 or newer
-- Node.js 22.12 or newer
+Install Node.js `24.19.0`. The required version is pinned in both `.nvmrc` and `.node-version`, and `package.json` accepts Node 24 beginning with this release.
 
 ### Option A: Install Node.js directly
 
-Download and install an LTS release from [nodejs.org](https://nodejs.org/). Close and reopen PowerShell after installation.
+Download and install Node.js `24.19.0` from [nodejs.org](https://nodejs.org/). Close and reopen PowerShell after installation.
 
 ### Option B: Use NVM for Windows
 
-If you use [NVM for Windows](https://github.com/coreybutler/nvm-windows), install and activate a supported Node version. For example:
+If you use [NVM for Windows](https://github.com/coreybutler/nvm-windows), install and activate the pinned Node version:
 
 ```powershell
-nvm install 22
-nvm use 22
+nvm install 24.19.0
+nvm use 24.19.0
 ```
 
 Verify that Node and npm are available:
@@ -55,7 +52,7 @@ node --version
 npm --version
 ```
 
-The Node version must satisfy the requirement above before continuing.
+`node --version` must print `v24.19.0` before continuing.
 
 ## 2. Enable pnpm with Corepack
 
@@ -234,7 +231,7 @@ Internal workspace dependencies must use the `workspace:*` protocol. Both applic
 
 ## AppVeyor CI
 
-The repository-root `appveyor.yml` runs the frontend build on the Visual Studio 2022 worker image with Node.js 22. It enables Corepack, activates the pinned pnpm version without an interactive download prompt, and runs pnpm through the Windows command shell. Each step resolves `webclient` from AppVeyor's absolute checkout directory so working-directory changes cannot produce a nested `webclient/webclient` path. AppVeyor then performs the following commands from `webclient`:
+The repository-root `appveyor.yml` runs the frontend build on the Visual Studio 2022 worker image with Node.js 24.19.0. It enables Corepack, activates the pinned pnpm version without an interactive download prompt, and runs pnpm through the Windows command shell. Each step resolves `webclient` from AppVeyor's absolute checkout directory so working-directory changes cannot produce a nested `webclient/webclient` path. AppVeyor then performs the following commands from `webclient`:
 
 ```powershell
 pnpm install --frozen-lockfile

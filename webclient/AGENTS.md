@@ -12,7 +12,7 @@ This directory is the frontend root: a React and Vite monorepo managed with pnpm
 
 ## Tooling
 
-- Use Node.js 20.19 or newer.
+- Use Node.js 24.19.0. Keep `.nvmrc`, `.node-version`, `package.json`, AppVeyor, and the README aligned when changing the runtime.
 - Use the pnpm version declared in `webclient/package.json` through Corepack.
 - Run `corepack enable` once if `pnpm` is unavailable.
 - Run pnpm commands from the `webclient/` directory unless a command explicitly targets a workspace.

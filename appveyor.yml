@@ -3,7 +3,7 @@ version: 1.0.{build}
 image: Visual Studio 2022
 
 environment:
-  nodejs_version: "22"
+  nodejs_version: "24.19.0"
   COREPACK_ENABLE_DOWNLOAD_PROMPT: "0"
 
 init:
@@ -13,7 +13,7 @@ cache:
   - webclient/.pnpm-store -> webclient/pnpm-lock.yaml
 
 install:
-  - ps: Install-Product node $env:nodejs_version x64
+  - ps: Update-NodeJsInstallation $env:nodejs_version x64
   - corepack enable
   - corepack prepare pnpm@10.15.0 --activate
   - cmd: cd /d "%APPVEYOR_BUILD_FOLDER%\webclient" && pnpm install --frozen-lockfile --store-dir .pnpm-store
