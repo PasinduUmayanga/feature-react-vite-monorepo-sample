@@ -18,6 +18,13 @@ These instructions apply to `apps/admin` and extend the repository-level develop
 - Use semantic HTML, label every control, support keyboard workflows, and preserve visible focus states.
 - Do not expose secrets, privileged tokens, or sensitive user data through browser code or logs.
 
+## Feature structure
+
+- Organize substantial admin features under `src/features/<feature>/`.
+- Use Atomic Design folders where the feature benefits from composition: `atoms`, `molecules`, `organisms`, `templates`, and `pages`.
+- Keep domain types and seed/mock data at the feature root; do not force business models into the visual component hierarchy.
+- Atoms must remain small and presentation-focused. Pages own feature state and operations; templates arrange organisms without owning domain state.
+
 ## Styling and environment
 
 - Keep global tokens and reset rules in `src/styles.css`; colocate feature styles as the app grows.
