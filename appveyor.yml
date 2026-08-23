@@ -1,0 +1,28 @@
+version: 1.0.{build}
+
+image: Visual Studio 2022
+
+environment:
+  nodejs_version: "22"
+
+init:
+  - git config --global core.autocrlf input
+
+install:
+  - ps: Install-Product node $env:nodejs_version x64
+  - corepack enable
+  - ps: Set-Location webclient; pnpm install --frozen-lockfile
+
+build_script:
+  - ps: Set-Location webclient; pnpm typecheck
+  - ps: Set-Location webclient; pnpm build
+
+test: off
+
+artifacts:
+  - path: webclient/apps/web/dist
+    name: web
+    type: zip
+  - path: webclient/apps/admin/dist
+    name: admin
+    type: zip
