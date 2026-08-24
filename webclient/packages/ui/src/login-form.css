@@ -49,3 +49,10 @@
   .login-form__remember input { width: 1.15rem; height: 1.15rem; }
   .login-form__submit { min-height: 2.75rem; }
 }
+
+@media (min-width: 390px) and (max-width: 430px) and (min-height: 800px) {
+  .login-card { padding: 1.5rem; }
+  .login-card__heading h1 { font-size: 2.35rem; }
+  .login-form input[type='email'], .login-form input[type='text'], .login-form input[type='password'] { min-height: 3rem; }
+  .login-form__submit { min-height: 3rem; }
+}
