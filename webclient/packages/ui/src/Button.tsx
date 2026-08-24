@@ -13,6 +13,6 @@ const styles: CSSProperties = {
   boxShadow: '0 10px 30px rgba(33, 201, 151, 0.2)',
 }
 
-export function Button({ style, ...props }: ButtonProps) {
+export function Button({ style, ...props }: Readonly<ButtonProps>) {
   return <button style={{ ...styles, ...style }} {...props} />
 }
