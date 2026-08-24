@@ -2,7 +2,7 @@ import { useId, useState, type FormEvent } from 'react'
 import { Button } from '@template/ui'
 import { ActionButton } from '../atoms/ActionButton'
 import { SelectField, TextField } from '../atoms/FormField'
-import type { User, UserDraft, UserRole, UserStatus } from '../types'
+import type { User, UserDraft, UserRole, UserStatus } from '../../types/user'
 
 const roles: readonly UserRole[] = ['Administrator', 'Manager', 'Viewer']
 const statuses: readonly UserStatus[] = ['Active', 'Invited', 'Suspended']

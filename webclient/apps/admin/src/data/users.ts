@@ -1,4 +1,4 @@
-import type { User } from './types'
+import type { User } from '../types/user'
 
 export const initialUsers: User[] = [
   { id: 'usr-001', name: 'Maya Fernando', email: 'maya@example.com', role: 'Administrator', status: 'Active', createdAt: '2026-07-18' },
