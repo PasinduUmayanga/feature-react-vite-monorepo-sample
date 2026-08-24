@@ -20,8 +20,8 @@
 .directory-toolbar > div span { color: #7a8c83; font-size: 0.8rem; }
 .search-field input { width: min(18rem, 40vw); border: 1px solid #ccd8d2; border-radius: 0.6rem; padding: 0.65rem 0.8rem; background: #fbfdfc; }
 .search-field input:focus-visible, .form-field input:focus-visible, .form-field select:focus-visible { outline: 3px solid rgba(40, 116, 90, 0.14); border-color: #28745a; }
-.table-scroll { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; }
+.table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-gutter: stable; }
+table { width: 100%; min-width: 48rem; border-collapse: collapse; }
 th, td { padding: 1rem 1.5rem; text-align: left; white-space: nowrap; }
 th { color: #708078; background: #f9fbfa; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; }
 td { border-top: 1px solid #edf1ef; color: #4e6158; font-size: 0.9rem; }
@@ -52,5 +52,34 @@ td:first-child span { margin-top: 0.25rem; color: #7c8b84; font-size: 0.8rem; }
 .user-details div { display: grid; grid-template-columns: 7rem 1fr; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid #edf1ef; }
 .user-details dt { color: #718078; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; }
 .user-details dd { margin: 0; color: #263b31; font-weight: 650; overflow-wrap: anywhere; }
-@media (max-width: 760px) { .admin-shell { grid-template-columns: 1fr; } .admin-sidebar { position: static; height: auto; padding: 1rem; } .admin-brand { margin: 0 0 1rem; } .admin-sidebar nav { display: flex; overflow-x: auto; } .sign-out { position: absolute; top: 0.7rem; right: 0.75rem; } .page-header { align-items: start; } .directory-toolbar { align-items: stretch; flex-direction: column; } .search-field input { width: 100%; } th, td { padding: 0.85rem 1rem; } }
-@media (max-width: 520px) { .page-header { flex-direction: column; } .page-header button { width: 100%; } .user-panel { padding: 1.25rem; } .user-form__row { grid-template-columns: 1fr; } }
+@media (max-width: 760px) {
+  .admin-shell { grid-template-columns: 1fr; }
+  .admin-sidebar { position: relative; height: auto; padding: 1rem; }
+  .admin-brand { margin: 0 5rem 1rem 0; }
+  .admin-sidebar nav { display: flex; overflow-x: auto; padding-bottom: 0.25rem; -webkit-overflow-scrolling: touch; }
+  .admin-sidebar nav a { min-height: 2.75rem; display: inline-flex; flex: 0 0 auto; align-items: center; }
+  .sign-out { position: absolute; top: 0.65rem; right: 0.75rem; min-width: 2.75rem; min-height: 2.75rem; text-align: center; }
+  .admin-content { width: 100%; padding: 1.5rem; }
+  .page-header { align-items: start; }
+  .directory-toolbar { align-items: stretch; flex-direction: column; padding: 1rem; }
+  .search-field input { width: 100%; min-height: 2.75rem; font-size: 1rem; }
+  th, td { padding: 0.85rem 1rem; }
+  .action-button { min-width: 2.75rem; min-height: 2.75rem; }
+}
+
+@media (max-width: 520px) {
+  .admin-content { padding: 1rem; }
+  .page-header { flex-direction: column; gap: 1.25rem; margin-bottom: 1.5rem; }
+  .page-header h1 { font-size: clamp(2rem, 12vw, 2.75rem); }
+  .page-header button { width: 100%; min-height: 2.75rem; }
+  .user-directory { border-radius: 0.8rem; }
+  .directory-toolbar > div { justify-content: space-between; }
+  .user-panel { width: 100%; padding: max(1rem, env(safe-area-inset-top)) 1rem max(1rem, env(safe-area-inset-bottom)); }
+  .user-panel__header { position: sticky; top: -1rem; z-index: 1; margin: -1rem -1rem 1.25rem; padding: 1rem; background: #fff; border-bottom: 1px solid #edf1ef; }
+  .user-panel__header h2 { font-size: 1.65rem; }
+  .user-form__row { grid-template-columns: 1fr; }
+  .form-field input, .form-field select { min-height: 2.75rem; font-size: 1rem; }
+  .user-form__footer { position: sticky; bottom: -1rem; margin-inline: -1rem; padding: 1rem; background: #fff; }
+  .user-form__footer button { min-height: 2.75rem; flex: 1; }
+  .user-details div { grid-template-columns: 1fr; gap: 0.35rem; }
+}
