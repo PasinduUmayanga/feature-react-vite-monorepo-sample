@@ -17,3 +17,18 @@ button, input { font: inherit; }
   .admin-login { align-content: start; gap: 1rem; padding: max(1rem, env(safe-area-inset-top)) 1rem max(1.5rem, env(safe-area-inset-bottom)); }
   .support { line-height: 1.5; }
 }
+
+@media (min-width: 390px) and (max-width: 430px) and (min-height: 800px) {
+  .admin-login {
+    align-content: center;
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+  .brand { width: min(100%, 28rem); margin-inline: auto; }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  .admin-login { align-content: start; grid-template-columns: minmax(9rem, 0.4fr) minmax(20rem, 28rem); gap: 1rem 2rem; padding: 1rem 1.5rem; }
+  .brand { align-self: start; }
+  .support { grid-column: 2; }
+}

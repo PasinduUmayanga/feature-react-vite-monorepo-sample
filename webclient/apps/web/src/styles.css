@@ -105,3 +105,27 @@ footer code { color: #8ef0cf; }
   .live-form button { width: 100%; min-height: 2.75rem; }
   footer { align-items: flex-start; flex-direction: column; }
 }
+
+/* Tall, high-density Android phones such as Xiaomi 15 Ultra in Chrome. */
+@media (min-width: 390px) and (max-width: 430px) and (min-height: 800px) {
+  .topbar, .hero, .setup-section, .project-section, .atomic-section, .shared-section, footer {
+    width: auto;
+    margin-left: max(1rem, env(safe-area-inset-left));
+    margin-right: max(1rem, env(safe-area-inset-right));
+  }
+  .topbar { position: sticky; top: 0; z-index: 5; background: rgba(9, 12, 19, 0.92); backdrop-filter: blur(14px); }
+  .hero { min-height: calc(100dvh - 4rem); align-content: center; padding-block: 2.5rem; }
+  .hero h1 { font-size: clamp(3rem, 13vw, 3.55rem); }
+  .tree-card { max-height: 17rem; }
+  .setup-section, .project-section, .atomic-section, .shared-section { padding-block: 3.5rem; }
+  .code-card { border-radius: 0.8rem; }
+  .tutorial-flow { gap: 1rem; }
+  .tutorial-step__heading h3 { font-size: 1.15rem; }
+  footer { padding-bottom: max(2rem, env(safe-area-inset-bottom)); }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  .hero { min-height: auto; grid-template-columns: minmax(0, 1.15fr) minmax(16rem, 0.85fr); gap: 2rem; padding-block: 2.5rem; }
+  .hero h1 { font-size: clamp(2.5rem, 7vw, 4rem); }
+  .tree-card { padding: 1.25rem; font-size: 0.78rem; }
+}
