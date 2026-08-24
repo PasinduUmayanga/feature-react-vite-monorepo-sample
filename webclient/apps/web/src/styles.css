@@ -1,7 +1,7 @@
 :root { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #e9edf5; background: #090c13; font-synthesis: none; text-rendering: optimizeLegibility; }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin: 0; min-width: 320px; min-height: 100vh; }
+body { margin: 0; min-width: 320px; min-height: 100vh; overflow-x: hidden; }
 button, input { font: inherit; }
 a { color: inherit; }
 .guide-shell { min-height: 100vh; overflow: hidden; background: radial-gradient(circle at 15% 12%, rgba(82, 95, 255, 0.2), transparent 30rem), radial-gradient(circle at 90% 80%, rgba(32, 210, 157, 0.12), transparent 32rem), #090c13; }
@@ -66,5 +66,42 @@ footer code { color: #8ef0cf; }
 .atomic-layers span { color: #c3ccda; font-size: 0.9rem; }
 .atomic-example { margin-top: 1rem; }
 .atomic-rule { margin: 1rem 0 0; padding: 1rem 1.2rem; border-left: 3px solid #8ef0cf; color: #aeb8c9; background: rgba(142, 240, 207, 0.06); line-height: 1.6; }
-@media (max-width: 800px) { .hero { grid-template-columns: 1fr; min-height: auto; } .tree-card { max-width: 32rem; transform: none; } .setup-grid, .atomic-layout { grid-template-columns: 1fr; } .component-file-grid { grid-template-columns: 1fr; } }
-@media (max-width: 560px) { .topbar, .hero, .setup-section, .project-section, .atomic-section, .shared-section, footer { width: min(100% - 2rem, 1180px); } .hero { padding: 4rem 0; } .hero h1 { font-size: clamp(2.8rem, 15vw, 4.2rem); } .hero__actions, .live-sample { align-items: flex-start; flex-direction: column; } .project-tabs { align-items: stretch; flex-direction: column; } .project-card__meta { flex-direction: column; } .project-card li { grid-template-columns: 1fr auto; } .project-card li code { grid-column: 1 / -1; grid-row: 2; } }
+@media (max-width: 800px) {
+  .hero { grid-template-columns: 1fr; min-height: auto; }
+  .tree-card { width: 100%; max-width: 32rem; transform: none; }
+  .setup-grid, .atomic-layout { grid-template-columns: 1fr; }
+  .component-file-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 560px) {
+  .topbar, .hero, .setup-section, .project-section, .atomic-section, .shared-section, footer { width: min(100% - 2rem, 1180px); }
+  .topbar { min-height: 4rem; padding: 0.85rem 0; }
+  .topbar a { min-height: 2.75rem; display: inline-flex; align-items: center; }
+  .hero { gap: 2.5rem; padding: 3.25rem 0 4rem; }
+  .hero h1 { overflow-wrap: anywhere; font-size: clamp(2.55rem, 14vw, 4.2rem); line-height: 0.98; }
+  .hero__copy > p { font-size: 1rem; line-height: 1.65; }
+  .hero__actions, .live-sample { align-items: stretch; flex-direction: column; }
+  .hero__actions button, .hero__actions a { min-height: 2.75rem; justify-content: center; text-align: center; }
+  .tree-card { overflow-x: auto; padding: 1.25rem; font-size: 0.8rem; white-space: nowrap; }
+  .setup-section, .project-section, .atomic-section, .shared-section { padding: 4rem 0; }
+  .section-heading { margin-bottom: 1.5rem; }
+  .section-heading h2, .shared-section h2 { font-size: clamp(2rem, 11vw, 3rem); }
+  .code-card__header { min-height: 2.75rem; gap: 0.75rem; }
+  .code-card__header span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .code-card__header button, .project-card li button { min-width: 2.75rem; min-height: 2.75rem; margin: -0.55rem -0.45rem -0.55rem 0; }
+  pre { padding: 1rem; font-size: 0.76rem; line-height: 1.65; -webkit-overflow-scrolling: touch; }
+  .project-tabs { align-items: stretch; flex-direction: column; }
+  .project-tabs button { min-height: 2.75rem; }
+  .project-card { padding: 1.25rem; }
+  .project-card__meta { flex-direction: column; }
+  .project-card li { grid-template-columns: 1fr auto; gap: 0.5rem; }
+  .project-card li code { grid-column: 1 / -1; grid-row: 2; padding-bottom: 0.25rem; }
+  .tutorial-step { padding: 1rem; }
+  .tutorial-step__heading { grid-template-columns: 2.25rem minmax(0, 1fr); gap: 0.75rem; }
+  .tutorial-step__badge { width: 2.25rem; height: 2.25rem; }
+  .atomic-layers article { padding: 0.85rem 1rem; }
+  .live-form { padding: 1rem; }
+  .live-form fieldset { align-items: flex-start; flex-direction: column; gap: 0.85rem; }
+  .live-form button { width: 100%; min-height: 2.75rem; }
+  footer { align-items: flex-start; flex-direction: column; }
+}

@@ -7,9 +7,13 @@
 }
 
 * { box-sizing: border-box; }
-body { margin: 0; min-width: 320px; min-height: 100vh; }
+body { margin: 0; min-width: 320px; min-height: 100vh; overflow-x: hidden; }
 button, input { font: inherit; }
-.admin-login { min-height: 100vh; display: grid; place-items: center; align-content: center; gap: 1.5rem; padding: 4.5rem 1.25rem 2rem; background: linear-gradient(rgba(237, 243, 239, 0.88), rgba(237, 243, 239, 0.96)), repeating-linear-gradient(90deg, transparent 0 79px, rgba(31, 73, 55, 0.08) 79px 80px), repeating-linear-gradient(0deg, transparent 0 79px, rgba(31, 73, 55, 0.08) 79px 80px); }
+.admin-login { min-height: 100vh; min-height: 100dvh; display: grid; place-items: center; align-content: center; gap: 1.5rem; padding: 4.5rem 1.25rem 2rem; background: linear-gradient(rgba(237, 243, 239, 0.88), rgba(237, 243, 239, 0.96)), repeating-linear-gradient(90deg, transparent 0 79px, rgba(31, 73, 55, 0.08) 79px 80px), repeating-linear-gradient(0deg, transparent 0 79px, rgba(31, 73, 55, 0.08) 79px 80px); }
 .brand { position: absolute; top: 2rem; left: 2rem; color: #193f30; font-size: 1rem; font-weight: 850; letter-spacing: -0.02em; text-decoration: none; }
 .support { margin: 0; color: #667a71; font-size: 0.85rem; text-align: center; }
-@media (max-width: 520px) { .brand { top: 1.25rem; left: 1.25rem; } .admin-login { padding-top: 5rem; } }
+@media (max-width: 520px) {
+  .brand { position: static; justify-self: start; }
+  .admin-login { align-content: start; gap: 1rem; padding: max(1rem, env(safe-area-inset-top)) 1rem max(1.5rem, env(safe-area-inset-bottom)); }
+  .support { line-height: 1.5; }
+}
