@@ -38,7 +38,7 @@ export function LoginForm({
   onSubmit,
   className = '',
   ...props
-}: LoginFormProps) {
+}: Readonly<LoginFormProps>) {
   const emailId = useId()
   const passwordId = useId()
   const rememberId = useId()
