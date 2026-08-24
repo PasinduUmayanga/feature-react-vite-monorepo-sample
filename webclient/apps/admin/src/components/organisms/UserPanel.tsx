@@ -1,7 +1,7 @@
 import { ActionButton } from '../atoms/ActionButton'
 import { StatusBadge } from '../atoms/StatusBadge'
 import { UserForm } from '../molecules/UserForm'
-import type { User, UserDraft } from '../types'
+import type { User, UserDraft } from '../../types/user'
 
 export type PanelState = { mode: 'create' } | { mode: 'view' | 'edit'; user: User }
 

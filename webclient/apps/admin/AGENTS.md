@@ -18,12 +18,13 @@ These instructions apply to `apps/admin` and extend the repository-level develop
 - Use semantic HTML, label every control, support keyboard workflows, and preserve visible focus states.
 - Do not expose secrets, privileged tokens, or sensitive user data through browser code or logs.
 
-## Feature structure
+## Atomic Design structure
 
-- Organize substantial admin features under `src/features/<feature>/`.
-- Use Atomic Design folders where the feature benefits from composition: `atoms`, `molecules`, `organisms`, `templates`, and `pages`.
-- Keep domain types and seed/mock data at the feature root; do not force business models into the visual component hierarchy.
-- Atoms must remain small and presentation-focused. Pages own feature state and operations; templates arrange organisms without owning domain state.
+- Use `src/components/atoms`, `src/components/molecules`, `src/components/organisms`, `src/templates`, and `src/pages`, matching the Web application; do not add a `src/features` wrapper.
+- Keep domain models in `src/types`, seed or mock records in `src/data`, API and browser-storage integration in `src/services`, and feature styles in `src/styles`.
+- Atoms remain small and presentation-focused. Molecules combine atoms, organisms compose complete sections, and templates arrange organisms without owning domain state.
+- Pages own feature state and operations. `App.tsx` handles only application-level session and page selection.
+- Dependencies flow upward through the Atomic Design layers; lower layers must not import templates or pages.
 
 ## Styling and environment
 

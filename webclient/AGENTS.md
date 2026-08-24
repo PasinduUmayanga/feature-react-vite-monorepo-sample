@@ -24,6 +24,7 @@ This directory is the frontend root: a React and Vite monorepo managed with pnpm
 ```bash
 pnpm install
 pnpm dev
+pnpm lint
 pnpm typecheck
 pnpm build
 pnpm preview
@@ -62,6 +63,7 @@ pnpm --filter @template/ui <command>
 For code or configuration changes, run at minimum:
 
 ```bash
+pnpm lint
 pnpm typecheck
 pnpm build
 ```

@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import { LoginForm, type LoginCredentials } from '@template/ui'
-import { AuthenticationError, authenticateAdmin, clearAdminSession, readAdminSession, storeAdminSession, type AdminSession } from './features/auth/dummyJsonAuth'
-import { UserManagementPage } from './features/users/pages/UserManagementPage'
+import type { LoginCredentials } from '@template/ui'
+import { AdminLoginPage } from './pages/AdminLoginPage'
+import { UserManagementPage } from './pages/UserManagementPage'
+import { AuthenticationError, authenticateAdmin, clearAdminSession, readAdminSession, storeAdminSession, type AdminSession } from './services/dummyJsonAuth'
 
 export function App() {
   const [session, setSession] = useState<AdminSession | null>(() => readAdminSession())
@@ -30,24 +31,5 @@ export function App() {
 
   if (session) return <UserManagementPage onSignOut={handleSignOut} />
 
-  return (
-    <main className="admin-login">
-      <a className="brand" href="/" aria-label="Admin console home">Kepler / Admin</a>
-      <LoginForm
-        eyebrow="Restricted access"
-        title="Admin sign in"
-        description="Sign in with a DummyJSON demo account to access the console."
-        submitLabel="Continue to console"
-        identifierLabel="Username"
-        identifierPlaceholder="Enter your username"
-        identifierType="text"
-        identifierAutoComplete="username"
-        forgotPasswordHref="#contact-support"
-        errorMessage={errorMessage}
-        isSubmitting={isSubmitting}
-        onSubmit={handleLogin}
-      />
-      <p className="support">Demo account: <strong>emilys</strong> / <strong>emilyspass</strong></p>
-    </main>
-  )
+  return <AdminLoginPage errorMessage={errorMessage} isSubmitting={isSubmitting} onSubmit={handleLogin} />
 }

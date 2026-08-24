@@ -7,6 +7,8 @@
     "dev": "pnpm --filter @template/web dev",
     "dev:admin": "pnpm --filter @template/admin dev",
     "build": "pnpm --filter @template/ui build && pnpm --filter @template/web build && pnpm --filter @template/admin build",
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint . --fix",
     "typecheck": "pnpm -r --if-present typecheck",
     "preview": "pnpm --filter @template/web preview",
     "preview:admin": "pnpm --filter @template/admin preview",
@@ -15,5 +17,15 @@
   "engines": {
     "node": ">=24.19.0 <25",
     "pnpm": ">=10.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "eslint": "^9.39.5",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.4",
+    "globals": "^17.11.0",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.68.0"
   }
 }

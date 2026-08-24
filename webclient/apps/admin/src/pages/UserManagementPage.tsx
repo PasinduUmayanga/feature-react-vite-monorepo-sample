@@ -1,9 +1,9 @@
 import { useMemo, useState } from 'react'
-import { initialUsers } from '../data'
-import type { PanelState } from '../organisms/UserPanel'
+import { initialUsers } from '../data/users'
+import type { PanelState } from '../components/organisms/UserPanel'
 import { UserManagementTemplate } from '../templates/UserManagementTemplate'
-import type { User, UserDraft } from '../types'
-import '../users.css'
+import type { User, UserDraft } from '../types/user'
+import '../styles/users.css'
 
 interface UserManagementPageProps {
   onSignOut: () => void

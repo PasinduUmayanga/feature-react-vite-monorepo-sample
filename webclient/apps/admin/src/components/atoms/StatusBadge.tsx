@@ -1,4 +1,4 @@
-import type { UserStatus } from '../types'
+import type { UserStatus } from '../../types/user'
 
 interface StatusBadgeProps {
   status: UserStatus

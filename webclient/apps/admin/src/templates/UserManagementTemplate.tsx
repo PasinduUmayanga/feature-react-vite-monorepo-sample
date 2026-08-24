@@ -1,7 +1,7 @@
 import { Button } from '@template/ui'
-import { UserPanel, type PanelState } from '../organisms/UserPanel'
-import { UserTable } from '../organisms/UserTable'
-import type { User, UserDraft } from '../types'
+import { UserPanel, type PanelState } from '../components/organisms/UserPanel'
+import { UserTable } from '../components/organisms/UserTable'
+import type { User, UserDraft } from '../types/user'
 
 interface UserManagementTemplateProps {
   users: User[]

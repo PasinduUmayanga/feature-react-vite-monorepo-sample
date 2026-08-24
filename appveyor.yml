@@ -17,6 +17,7 @@ install:
   - cmd: cd /d "%APPVEYOR_BUILD_FOLDER%\webclient" && pnpm install --frozen-lockfile --store-dir .pnpm-store
 
 build_script:
+  - cmd: cd /d "%APPVEYOR_BUILD_FOLDER%\webclient" && pnpm lint
   - cmd: cd /d "%APPVEYOR_BUILD_FOLDER%\webclient" && pnpm typecheck
   - cmd: cd /d "%APPVEYOR_BUILD_FOLDER%\webclient" && pnpm build
 

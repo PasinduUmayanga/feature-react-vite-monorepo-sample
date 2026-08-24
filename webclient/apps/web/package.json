@@ -13,14 +13,14 @@
   "dependencies": {
     "@template/ui": "workspace:*",
     "@template/utils": "workspace:*",
-    "@vitejs/plugin-react": "latest",
-    "react": "latest",
-    "react-dom": "latest",
-    "vite": "latest"
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
   },
   "devDependencies": {
-    "@types/react": "latest",
-    "@types/react-dom": "latest",
-    "typescript": "latest"
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.5",
+    "@vitejs/plugin-react": "^6.1.0",
+    "typescript": "~6.0.3",
+    "vite": "^8.2.2"
   }
 }

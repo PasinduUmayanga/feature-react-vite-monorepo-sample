@@ -17,6 +17,15 @@ These instructions apply to `apps/web` and extend the repository-level developme
 - Keep the application accessible: use semantic HTML, label controls, support keyboard interaction, and preserve visible focus states.
 - Avoid unnecessary memoization. Add it only for a measured problem or a stable-reference requirement.
 
+## Atomic Design structure
+
+- Organize application UI as `components/atoms`, `components/molecules`, `components/organisms`, `templates`, and `pages`.
+- Atoms are small presentation primitives. Molecules combine atoms into a focused control or heading.
+- Organisms compose complete page sections. Templates own layout but not application state.
+- Pages connect templates to application state and feature behavior. Keep `App.tsx` focused on app-level orchestration.
+- Dependencies flow upward: molecules may use atoms, organisms may use molecules, templates arrange organisms, and pages compose templates. Do not import pages into lower layers.
+- Keep genuinely cross-application, domain-neutral components in `@template/ui` instead of duplicating them in both app trees.
+
 ## Styling and assets
 
 - Put global tokens and truly global rules in `src/styles.css`.

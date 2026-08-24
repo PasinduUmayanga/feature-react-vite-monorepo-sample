@@ -252,6 +252,8 @@ Internal workspace dependencies must use the `workspace:*` protocol. Both applic
 | --- | --- |
 | `pnpm dev` | Start the public web app |
 | `pnpm dev:admin` | Start the admin app |
+| `pnpm lint` | Lint TypeScript, React Hooks, React Refresh, and accessibility rules |
+| `pnpm lint:fix` | Apply safe automatic ESLint fixes |
 | `pnpm typecheck` | Type-check all workspaces |
 | `pnpm build` | Build the UI package and both apps |
 | `pnpm preview` | Preview the public web production build |
@@ -264,6 +266,7 @@ The repository-root `appveyor.yml` runs the frontend build on the Visual Studio 
 
 ```powershell
 pnpm install --frozen-lockfile
+pnpm lint
 pnpm typecheck
 pnpm build
 ```
