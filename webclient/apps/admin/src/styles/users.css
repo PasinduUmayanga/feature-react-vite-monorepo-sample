@@ -39,6 +39,7 @@ td:first-child span { margin-top: 0.25rem; color: #7c8b84; font-size: 0.8rem; }
 .action-button--danger:hover, .action-button--danger:focus-visible { border-color: #c45656; color: #7c2727; background: #fff7f7; }
 .empty-state { display: grid; place-items: center; gap: 0.4rem; padding: 4rem 1rem; color: #718078; }
 .empty-state strong { color: #283c32; }
+.user-feedback { margin: 1rem 1.5rem 0; border: 1px solid #e6b9b9; border-radius: 0.65rem; padding: 0.8rem 1rem; color: #7c2727; background: #fff7f7; }
 .panel-backdrop { position: fixed; inset: 0; z-index: 10; display: flex; justify-content: flex-end; background: rgba(10, 24, 17, 0.38); backdrop-filter: blur(2px); }
 .user-panel { width: min(31rem, 100%); height: 100%; overflow-y: auto; padding: 2rem; background: #fff; box-shadow: -20px 0 60px rgba(7, 22, 14, 0.18); }
 .user-panel__header { display: flex; align-items: start; justify-content: space-between; gap: 1rem; margin-bottom: 2rem; }

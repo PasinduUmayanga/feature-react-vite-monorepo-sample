@@ -1,4 +1,4 @@
-import type { UserStatus } from '../../types/user'
+import type { UserStatus } from '@template/users-feature'
 
 interface StatusBadgeProps {
   status: UserStatus

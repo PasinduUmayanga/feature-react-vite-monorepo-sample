@@ -1,5 +1,5 @@
 import { ActionButton } from '../atoms/ActionButton'
-import type { User } from '../../types/user'
+import type { User } from '@template/users-feature'
 
 interface UserActionsProps {
   user: User

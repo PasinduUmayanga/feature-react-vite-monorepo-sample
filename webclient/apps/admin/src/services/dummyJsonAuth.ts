@@ -1,5 +1,7 @@
-const AUTH_URL = 'https://dummyjson.com/auth/login'
+import { HttpError, NetworkError, createHttpClient } from '@template/api-client'
+
 const SESSION_KEY = 'kepler-admin-session'
+const client = createHttpClient({ baseUrl: 'https://dummyjson.com' })
 
 export interface AdminSession {
   id: number
@@ -28,33 +30,22 @@ function isAdminSession(value: unknown): value is AdminSession {
 }
 
 export async function authenticateAdmin(username: string, password: string): Promise<AdminSession> {
-  let response: Response
-
   try {
-    response = await fetch(AUTH_URL, {
+    const payload = await client.request<unknown>('/auth/login', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password, expiresInMins: 30 }),
+      body: { username, password, expiresInMins: 30 },
       credentials: 'include',
     })
-  } catch {
+    if (!isAdminSession(payload)) throw new AuthenticationError('The login service returned an unexpected response.')
+    return payload
+  } catch (error) {
+    if (error instanceof HttpError) throw new AuthenticationError(error.message)
+    if (error instanceof NetworkError) {
+      throw new AuthenticationError('Unable to reach the login service. Check your connection and try again.')
+    }
+    if (error instanceof AuthenticationError) throw error
     throw new AuthenticationError('Unable to reach the login service. Check your connection and try again.')
   }
-
-  const payload: unknown = await response.json().catch(() => null)
-
-  if (!response.ok) {
-    const message = payload && typeof payload === 'object' && 'message' in payload && typeof payload.message === 'string'
-      ? payload.message
-      : 'The username or password is incorrect.'
-    throw new AuthenticationError(message)
-  }
-
-  if (!isAdminSession(payload)) {
-    throw new AuthenticationError('The login service returned an unexpected response.')
-  }
-
-  return payload
 }
 
 export function storeAdminSession(session: AdminSession, remember: boolean) {

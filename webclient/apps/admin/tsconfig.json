@@ -19,5 +19,9 @@
     "jsx": "react-jsx"
   },
   "include": ["src", "vite.config.ts"],
-  "references": [{ "path": "../../packages/ui" }]
+  "references": [
+    { "path": "../../packages/api-client" },
+    { "path": "../../packages/features/users" },
+    { "path": "../../packages/ui" }
+  ]
 }

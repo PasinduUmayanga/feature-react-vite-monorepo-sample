@@ -1,17 +1,18 @@
 import { ActionButton } from '../atoms/ActionButton'
 import { StatusBadge } from '../atoms/StatusBadge'
 import { UserForm } from '../molecules/UserForm'
-import type { User, UserDraft } from '../../types/user'
+import type { User, UserDraft } from '@template/users-feature'
 
 export type PanelState = { mode: 'create' } | { mode: 'view' | 'edit'; user: User }
 
 interface UserPanelProps {
   panel: PanelState
+  isSaving: boolean
   onClose: () => void
   onSave: (draft: UserDraft) => void
 }
 
-export function UserPanel({ panel, onClose, onSave }: UserPanelProps) {
+export function UserPanel({ panel, isSaving, onClose, onSave }: UserPanelProps) {
   const title = panel.mode === 'create' ? 'Add user' : panel.mode === 'edit' ? 'Edit user' : 'User details'
 
   return (
@@ -29,7 +30,7 @@ export function UserPanel({ panel, onClose, onSave }: UserPanelProps) {
             <div><dt>Status</dt><dd><StatusBadge status={panel.user.status} /></dd></div>
             <div><dt>Created</dt><dd>{new Intl.DateTimeFormat('en', { dateStyle: 'long' }).format(new Date(panel.user.createdAt))}</dd></div>
           </dl>
-        ) : <UserForm user={panel.mode === 'edit' ? panel.user : undefined} onCancel={onClose} onSave={onSave} />}
+        ) : <UserForm user={panel.mode === 'edit' ? panel.user : undefined} isSaving={isSaving} onCancel={onClose} onSave={onSave} />}
       </section>
     </div>
   )

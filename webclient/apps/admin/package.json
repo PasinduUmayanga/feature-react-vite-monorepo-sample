@@ -11,7 +11,10 @@
     "clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\""
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.90.20",
+    "@template/api-client": "workspace:*",
     "@template/ui": "workspace:*",
+    "@template/users-feature": "workspace:*",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },
