@@ -30,8 +30,8 @@ These instructions apply to `apps/admin` and extend the repository-level develop
 
 - Keep global tokens and reset rules in `src/styles.css`; colocate feature styles as the app grows.
 - Maintain usable navigation and tables on narrow screens.
-- Only variables prefixed with `VITE_` are exposed to browser code, so never store secrets in them.
-- Document required variables in a committed `.env.example` without real credentials.
+- Only variables prefixed with `VITE_` are exposed to browser code, so never store secrets in them. Keep public service URLs in the ignored `.env` file and document them in the committed `.env.example`.
+- Validate environment values at the application boundary before passing configuration to shared packages. Document required variables in a committed `.env.example` without real credentials.
 
 ## Verification
 

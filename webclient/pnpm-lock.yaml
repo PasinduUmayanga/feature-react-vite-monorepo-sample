@@ -41,6 +41,9 @@ importers:
       '@template/api-client':
         specifier: workspace:*
         version: link:../../packages/api-client
+      '@template/reports-feature':
+        specifier: workspace:*
+        version: link:../../packages/features/reports
       '@template/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -103,6 +106,25 @@ importers:
 
   packages/api-client:
     devDependencies:
+      typescript:
+        specifier: ~6.0.3
+        version: 6.0.3
+
+  packages/features/reports:
+    dependencies:
+      '@tanstack/react-query':
+        specifier: ^5.90.20
+        version: 5.102.5(react@19.2.8)
+      '@template/users-feature':
+        specifier: workspace:*
+        version: link:../users
+      react:
+        specifier: '>=18'
+        version: 19.2.8
+    devDependencies:
+      '@types/react':
+        specifier: ^19.2.18
+        version: 19.2.18
       typescript:
         specifier: ~6.0.3
         version: 6.0.3

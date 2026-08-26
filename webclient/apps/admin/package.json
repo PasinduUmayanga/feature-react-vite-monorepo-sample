@@ -13,6 +13,7 @@
   "dependencies": {
     "@tanstack/react-query": "^5.90.20",
     "@template/api-client": "workspace:*",
+    "@template/reports-feature": "workspace:*",
     "@template/ui": "workspace:*",
     "@template/users-feature": "workspace:*",
     "react": "^19.2.8",

@@ -53,7 +53,7 @@ pnpm --filter @template/ui <command>
 - Preserve the existing formatting style: single quotes, trailing commas, and no semicolons in TypeScript.
 - Never edit generated files in `dist/` or dependency files in `node_modules/`.
 - Update the README and relevant `AGENTS.md` when commands, structure, or architectural conventions change.
-- Keep the public Web tutorial aligned with meaningful implementation changes. When a change affects architecture, package boundaries, APIs, tooling, developer workflow, or user-visible feature behavior, update `apps/web/src/pages/MonorepoTutorialPage.tsx` with accurate, copyable code and the relevant file paths. Routine internal refactors, dependency patch updates, and isolated styling fixes do not need a tutorial update unless they change the lesson or behavior.
+- Keep the public Web tutorial aligned with meaningful implementation changes. When a change affects architecture, package boundaries, APIs, tooling, developer workflow, or user-visible feature behavior, update the tutorial pages under `apps/web/src/pages/` with accurate, copyable code and the relevant file paths. Every tutorial lesson has its own hash route and page component under `apps/web/src/pages/tutorials/`; maintain those routes and the table of contents whenever its section structure changes. Routine internal refactors, dependency patch updates, and isolated styling fixes do not need a tutorial update unless they change the lesson or behavior.
 
 ## Adding a workspace
 

@@ -7,7 +7,7 @@ These instructions apply to `apps/web` and extend the repository-level developme
 - This workspace owns routing, pages, application state, browser integration, and app-specific styles.
 - Move a component to `packages/ui` only when it is genuinely reusable and does not depend on application state or app-specific domain concepts.
 - Consume shared code through package imports such as `@template/ui`, never through `../../packages/...` paths.
-- `src/pages/MonorepoTutorialPage.tsx` is the public implementation tutorial for this monorepo. Keep its examples synchronized with meaningful architecture, workflow, API, package, and user-visible feature changes.
+- `src/pages/MonorepoTutorialPage.tsx` is the public implementation tutorial shell for this monorepo. Lesson pages live in `src/pages/tutorials/`; keep their examples, hash-routed views, and table of contents synchronized with meaningful architecture, workflow, API, package, and user-visible feature changes.
 
 ## React conventions
 

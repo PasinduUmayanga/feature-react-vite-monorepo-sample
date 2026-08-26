@@ -2,12 +2,15 @@ import { useState } from 'react'
 import type { LoginCredentials } from '@template/ui'
 import { AdminLoginPage } from './pages/AdminLoginPage'
 import { UserManagementPage } from './pages/UserManagementPage'
+import { UserReportsPage } from './pages/UserReportsPage'
+import type { AdminPage } from './components/molecules/AdminNavigation'
 import { AuthenticationError, authenticateAdmin, clearAdminSession, readAdminSession, storeAdminSession, type AdminSession } from './services/dummyJsonAuth'
 
 export function App() {
   const [session, setSession] = useState<AdminSession | null>(() => readAdminSession())
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [activePage, setActivePage] = useState<AdminPage>('users')
 
   async function handleLogin(credentials: LoginCredentials) {
     setIsSubmitting(true)
@@ -27,9 +30,12 @@ export function App() {
   function handleSignOut() {
     clearAdminSession()
     setSession(null)
+    setActivePage('users')
   }
 
-  if (session) return <UserManagementPage onSignOut={handleSignOut} />
+  if (session) return activePage === 'reports'
+    ? <UserReportsPage onNavigate={setActivePage} onSignOut={handleSignOut} />
+    : <UserManagementPage onNavigate={setActivePage} onSignOut={handleSignOut} />
 
   return <AdminLoginPage errorMessage={errorMessage} isSubmitting={isSubmitting} onSubmit={handleLogin} />
 }

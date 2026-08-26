@@ -7,6 +7,15 @@ a { color: inherit; }
 .guide-shell { min-height: 100vh; overflow: hidden; background: radial-gradient(circle at 15% 12%, rgba(82, 95, 255, 0.2), transparent 30rem), radial-gradient(circle at 90% 80%, rgba(32, 210, 157, 0.12), transparent 32rem), #090c13; }
 .topbar { width: min(1180px, calc(100% - 3rem)); margin: auto; display: flex; justify-content: space-between; align-items: center; padding: 1.4rem 0; border-bottom: 1px solid #202735; }
 .topbar > a:last-child { color: #aeb8c9; font-size: 0.88rem; text-decoration: none; }
+.tutorial-toc { width: min(1180px, calc(100% - 3rem)); margin: 1rem auto 0; padding: 0.85rem; border: 1px solid rgba(83, 102, 136, 0.45); border-radius: 1.1rem; background: rgba(16, 22, 32, 0.74); box-shadow: 0 16px 42px rgba(0, 0, 0, 0.16); backdrop-filter: blur(16px); }
+.tutorial-toc__eyebrow { display: block; margin: 0 0 0.65rem 0.35rem; color: #8ef0cf; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.13em; text-transform: uppercase; }
+.tutorial-toc ol { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.45rem; margin: 0; padding: 0; list-style: none; }
+.tutorial-toc a { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 0.55rem; padding: 0.7rem; border: 1px solid transparent; border-radius: 0.8rem; color: #9daabe; text-decoration: none; transition: border-color 160ms ease, background 160ms ease, color 160ms ease, transform 160ms ease; }
+.tutorial-toc a:hover, .tutorial-toc a:focus-visible { border-color: rgba(142, 240, 207, 0.45); color: #f5f7fb; background: rgba(142, 240, 207, 0.08); transform: translateY(-1px); }
+.tutorial-toc a[aria-current="step"] { border-color: rgba(169, 178, 255, 0.5); color: #fff; background: linear-gradient(135deg, rgba(169, 178, 255, 0.2), rgba(142, 240, 207, 0.1)); }
+.tutorial-toc a > span { color: #8ef0cf; font: 800 0.68rem ui-monospace, SFMono-Regular, Consolas, monospace; }
+.tutorial-toc strong { font-size: 0.82rem; }
+.tutorial-toc small { grid-column: 2; color: #77849a; font-size: 0.68rem; line-height: 1.35; }
 .wordmark { color: #fff; font-weight: 850; letter-spacing: -0.03em; text-decoration: none; }
 .wordmark span { color: #8ef0cf; }
 .hero, .setup-section, .project-section, .atomic-section, .shared-section, .architecture-section { width: min(1180px, calc(100% - 3rem)); margin: auto; }
@@ -73,12 +82,17 @@ footer code { color: #8ef0cf; }
   .tree-card { width: 100%; max-width: 32rem; transform: none; }
   .setup-grid, .atomic-layout { grid-template-columns: 1fr; }
   .component-file-grid { grid-template-columns: 1fr; }
+  .tutorial-toc ol { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
 @media (max-width: 560px) {
-  .topbar, .hero, .setup-section, .project-section, .atomic-section, .shared-section, .architecture-section, footer { width: min(100% - 2rem, 1180px); }
+  .topbar, .tutorial-toc, .hero, .setup-section, .project-section, .atomic-section, .shared-section, .architecture-section, footer { width: min(100% - 2rem, 1180px); }
   .topbar { min-height: 4rem; padding: 0.85rem 0; }
   .topbar a { min-height: 2.75rem; display: inline-flex; align-items: center; }
+  .tutorial-toc { overflow-x: auto; padding: 0.65rem; -webkit-overflow-scrolling: touch; }
+  .tutorial-toc ol { display: flex; min-width: max-content; }
+  .tutorial-toc li { width: 10.25rem; }
+  .tutorial-toc a { min-height: 4.4rem; }
   .hero { gap: 2.5rem; padding: 3.25rem 0 4rem; }
   .hero h1 { overflow-wrap: anywhere; font-size: clamp(2.55rem, 14vw, 4.2rem); line-height: 0.98; }
   .hero__copy > p { font-size: 1rem; line-height: 1.65; }
@@ -110,7 +124,7 @@ footer code { color: #8ef0cf; }
 
 /* Tall, high-density Android phones such as Xiaomi 15 Ultra in Chrome. */
 @media (min-width: 390px) and (max-width: 430px) and (min-height: 800px) {
-  .topbar, .hero, .setup-section, .project-section, .atomic-section, .shared-section, .architecture-section, footer {
+  .topbar, .tutorial-toc, .hero, .setup-section, .project-section, .atomic-section, .shared-section, .architecture-section, footer {
     width: auto;
     margin-left: max(1rem, env(safe-area-inset-left));
     margin-right: max(1rem, env(safe-area-inset-right));

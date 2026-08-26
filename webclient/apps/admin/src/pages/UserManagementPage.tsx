@@ -1,18 +1,21 @@
 import { useMemo, useState } from 'react'
 import { useCreateUser, useDeleteUser, useUpdateUser, useUsers, type User, type UserDraft } from '@template/users-feature'
 import type { PanelState } from '../components/organisms/UserPanel'
+import type { AdminPage } from '../components/molecules/AdminNavigation'
+import { usersApi } from '../config/users-api'
 import { UserManagementTemplate } from '../templates/UserManagementTemplate'
 import '../styles/users.css'
 
 interface UserManagementPageProps {
+  onNavigate: (page: AdminPage) => void
   onSignOut: () => void
 }
 
-export function UserManagementPage({ onSignOut }: UserManagementPageProps) {
-  const usersQuery = useUsers()
-  const createUser = useCreateUser()
-  const updateUser = useUpdateUser()
-  const deleteUser = useDeleteUser()
+export function UserManagementPage({ onNavigate, onSignOut }: UserManagementPageProps) {
+  const usersQuery = useUsers(usersApi)
+  const createUser = useCreateUser(usersApi)
+  const updateUser = useUpdateUser(usersApi)
+  const deleteUser = useDeleteUser(usersApi)
   const [query, setQuery] = useState('')
   const [panel, setPanel] = useState<PanelState | null>(null)
   const [mutationError, setMutationError] = useState<string | null>(null)
@@ -49,5 +52,5 @@ export function UserManagementPage({ onSignOut }: UserManagementPageProps) {
 
   const errorMessage = usersQuery.isError ? 'Unable to load users. Please refresh and try again.' : mutationError
 
-  return <UserManagementTemplate users={visibleUsers} query={query} panel={panel} isLoading={usersQuery.isLoading} isSaving={isSaving} errorMessage={errorMessage} onQueryChange={setQuery} onCreate={() => setPanel({ mode: 'create' })} onView={(user) => setPanel({ mode: 'view', user })} onEdit={(user) => setPanel({ mode: 'edit', user })} onDelete={handleDelete} onClosePanel={() => setPanel(null)} onSave={handleSave} onSignOut={onSignOut} />
+  return <UserManagementTemplate users={visibleUsers} query={query} panel={panel} isLoading={usersQuery.isLoading} isSaving={isSaving} errorMessage={errorMessage} onNavigate={onNavigate} onQueryChange={setQuery} onCreate={() => setPanel({ mode: 'create' })} onView={(user) => setPanel({ mode: 'view', user })} onEdit={(user) => setPanel({ mode: 'edit', user })} onDelete={handleDelete} onClosePanel={() => setPanel(null)} onSave={handleSave} onSignOut={onSignOut} />
 }

@@ -1,4 +1,5 @@
-export { createUser, deleteUser, getUsers, updateUser } from './api/users-client'
+export { createUsersApi } from './api/users-client'
+export type { UsersApi } from './api/users-client'
 export { userKeys } from './queries/user-keys'
 export { useCreateUser, useDeleteUser, useUpdateUser } from './queries/use-user-mutations'
 export { useUsers } from './queries/use-users'

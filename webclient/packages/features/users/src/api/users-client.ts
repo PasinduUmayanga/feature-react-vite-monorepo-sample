@@ -1,8 +1,6 @@
 import { createHttpClient } from '@template/api-client'
 import type { User, UserDraft } from '../types/user'
 
-const client = createHttpClient({ baseUrl: 'https://dummyjson.com' })
-
 interface DummyUser {
   id: number
   firstName: string
@@ -25,29 +23,37 @@ function mapUser(user: DummyUser): User {
   }
 }
 
-export async function getUsers() {
-  const payload = await client.request<DummyUserList>('/users?limit=100')
-  return payload.users.map(mapUser)
+export function createUsersApi(baseUrl: string) {
+  const client = createHttpClient({ baseUrl })
+
+  async function getUsers() {
+    const payload = await client.request<DummyUserList>('/users?limit=100')
+    return payload.users.map(mapUser)
+  }
+
+  async function createUser(draft: UserDraft): Promise<User> {
+    const [firstName, ...lastName] = draft.name.trim().split(/\s+/)
+    const payload = await client.request<DummyUser>('/users/add', {
+      method: 'POST',
+      body: { firstName, lastName: lastName.join(' '), email: draft.email },
+    })
+    return { ...mapUser(payload), ...draft }
+  }
+
+  async function updateUser(user: User, draft: UserDraft): Promise<User> {
+    const [firstName, ...lastName] = draft.name.trim().split(/\s+/)
+    await client.request<DummyUser>(`/users/${user.id}`, {
+      method: 'PATCH',
+      body: { firstName, lastName: lastName.join(' '), email: draft.email },
+    })
+    return { ...user, ...draft }
+  }
+
+  async function deleteUser(user: User) {
+    await client.request<DummyUser>(`/users/${user.id}`, { method: 'DELETE' })
+  }
+
+  return { getUsers, createUser, updateUser, deleteUser }
 }
 
-export async function createUser(draft: UserDraft): Promise<User> {
-  const [firstName, ...lastName] = draft.name.trim().split(/\s+/)
-  const payload = await client.request<DummyUser>('/users/add', {
-    method: 'POST',
-    body: { firstName, lastName: lastName.join(' '), email: draft.email },
-  })
-  return { ...mapUser(payload), ...draft }
-}
-
-export async function updateUser(user: User, draft: UserDraft): Promise<User> {
-  const [firstName, ...lastName] = draft.name.trim().split(/\s+/)
-  await client.request<DummyUser>(`/users/${user.id}`, {
-    method: 'PATCH',
-    body: { firstName, lastName: lastName.join(' '), email: draft.email },
-  })
-  return { ...user, ...draft }
-}
-
-export async function deleteUser(user: User) {
-  await client.request<DummyUser>(`/users/${user.id}`, { method: 'DELETE' })
-}
+export type UsersApi = ReturnType<typeof createUsersApi>
