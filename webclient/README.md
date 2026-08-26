@@ -38,6 +38,7 @@ webclient/
 │  └─ admin/     Administration application
 ├─ packages/
 │  ├─ api-client/       Framework-neutral HTTP transport and errors
+│  ├─ features/reports/ User report types, aggregation, and query hooks
 │  ├─ features/users/   User API operations, query keys, and TanStack Query hooks
 │  └─ ui/               Components shared by web and admin
 ├─ package.json
@@ -253,6 +254,8 @@ Internal workspace dependencies must use the `workspace:*` protocol. Both applic
 Server state belongs to a feature package, not individual screens. The admin app mounts a TanStack Query provider and consumes `@template/users-feature` hooks for its user directory. `@template/api-client` owns request transport and normalized network/HTTP errors, while application code owns session storage and UI-only state such as open panels and search terms.
 
 The current user directory is backed by DummyJSON for demonstration. DummyJSON simulates write operations without persisting them, so successful create, update, and delete operations update the TanStack Query cache for the current browser session. Replace the feature package's API adapter when a production users service is available.
+
+`@template/reports-feature` supplies the admin User Reports dashboard. Its initial query aggregates the mapped users data into totals, status and role distributions, and recent users; replace that aggregation with a dedicated reporting endpoint when one is available.
 
 ## Environment configuration
 

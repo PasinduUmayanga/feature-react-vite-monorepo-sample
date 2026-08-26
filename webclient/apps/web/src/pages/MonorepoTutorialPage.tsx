@@ -169,6 +169,7 @@ const architectureTree = `webclient/
     ├── api-client/                  # request transport and errors
     │   └── src/http-client.ts
     └── features/
+        ├── reports/                 # report aggregation and query hooks
         └── users/                   # user domain owns server state
             └── src/
                 ├── api/users-client.ts
@@ -245,6 +246,34 @@ export function useCreateUser(usersApi: UsersApi) {
         [createdUser, ...users]
       )
     },
+  })
+}`
+
+const reportsCode = `// packages/features/reports/src/api/reports-client.ts
+export function createReportsApi(baseUrl: string) {
+  const usersApi = createUsersApi(baseUrl)
+
+  async function getUserReport(): Promise<UserReport> {
+    const users = await usersApi.getUsers()
+
+    return {
+      generatedAt: new Date().toISOString(),
+      totalUsers: users.length,
+      usersByStatus: countBy(users.map((user) => user.status), statuses),
+      usersByRole: countBy(users.map((user) => user.role), roles),
+      recentUsers: newestFirst(users).slice(0, 5),
+    }
+  }
+
+  return { getUserReport }
+}
+
+// packages/features/reports/src/queries/use-user-report.ts
+export function useUserReport(reportsApi: ReportsApi) {
+  return useQuery({
+    queryKey: reportKeys.userSummary(),
+    queryFn: reportsApi.getUserReport,
+    staleTime: 60_000,
   })
 }`
 
@@ -525,7 +554,15 @@ export function MonorepoTutorialPage() {
           </section>
 
           <section className="tutorial-step">
-            <TutorialStepHeading step="6" title="Mount one Query client per application">Caching policy is application-owned, so the admin app supplies its own provider at the React root.</TutorialStepHeading>
+            <TutorialStepHeading step="6" title="Build derived reports as their own feature">The reports feature reuses the users feature's public API to aggregate report data. A future reporting service can replace this adapter without changing the admin page.</TutorialStepHeading>
+            <article className="code-card code-card--large">
+              <div className="code-card__header"><span>packages/features/reports</span><button type="button" onClick={() => copyCommand('reports', reportsCode)}>{copied === 'reports' ? 'Copied' : 'Copy'}</button></div>
+              <pre><code>{reportsCode}</code></pre>
+            </article>
+          </section>
+
+          <section className="tutorial-step">
+            <TutorialStepHeading step="7" title="Mount one Query client per application">Caching policy is application-owned, so the admin app supplies its own provider at the React root.</TutorialStepHeading>
             <article className="code-card">
               <div className="code-card__header"><span>apps/admin/src/main.tsx</span><button type="button" onClick={() => copyCommand('provider', providerCode)}>{copied === 'provider' ? 'Copied' : 'Copy'}</button></div>
               <pre><code>{providerCode}</code></pre>
@@ -533,7 +570,7 @@ export function MonorepoTutorialPage() {
           </section>
 
           <section className="tutorial-step">
-            <TutorialStepHeading step="7" title="Keep pages responsible for UI state">The page owns the editor panel and presentation decisions. The feature hooks own remote data, loading state, and mutations.</TutorialStepHeading>
+            <TutorialStepHeading step="8" title="Keep pages responsible for UI state">The page owns the editor panel and presentation decisions. The feature hooks own remote data, loading state, and mutations.</TutorialStepHeading>
             <article className="code-card code-card--large">
               <div className="code-card__header"><span>apps/admin/src/pages/UserManagementPage.tsx</span><button type="button" onClick={() => copyCommand('page-usage', pageUsageCode)}>{copied === 'page-usage' ? 'Copied' : 'Copy'}</button></div>
               <pre><code>{pageUsageCode}</code></pre>

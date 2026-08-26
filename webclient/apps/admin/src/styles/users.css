@@ -4,8 +4,8 @@
 .admin-brand { margin: 0 0 3rem 0.75rem; color: #fff; font-size: 1.25rem; font-weight: 850; text-decoration: none; }
 .admin-brand span { color: #8ef0cf; }
 .admin-sidebar nav { display: grid; gap: 0.4rem; }
-.admin-sidebar nav a { padding: 0.8rem 0.9rem; border-radius: 0.65rem; color: #a9bcb2; text-decoration: none; }
-.admin-sidebar nav a:hover, .admin-sidebar nav a:focus-visible, .admin-sidebar nav a.active { color: #fff; background: #22372d; }
+.admin-sidebar nav button { border: 0; padding: 0.8rem 0.9rem; border-radius: 0.65rem; color: #a9bcb2; background: transparent; cursor: pointer; text-align: left; }
+.admin-sidebar nav button:hover, .admin-sidebar nav button:focus-visible, .admin-sidebar nav button.active { color: #fff; background: #22372d; }
 .sign-out { margin-top: auto; border: 0; padding: 0.75rem; color: #a9bcb2; background: transparent; cursor: pointer; text-align: left; }
 .sign-out:hover, .sign-out:focus-visible { color: #fff; }
 .admin-content { width: min(100%, 90rem); padding: clamp(1.5rem, 4vw, 4rem); }
@@ -58,7 +58,7 @@ td:first-child span { margin-top: 0.25rem; color: #7c8b84; font-size: 0.8rem; }
   .admin-sidebar { position: relative; height: auto; padding: 1rem; }
   .admin-brand { margin: 0 5rem 1rem 0; }
   .admin-sidebar nav { display: flex; overflow-x: auto; padding-bottom: 0.25rem; -webkit-overflow-scrolling: touch; }
-  .admin-sidebar nav a { min-height: 2.75rem; display: inline-flex; flex: 0 0 auto; align-items: center; }
+  .admin-sidebar nav button { min-height: 2.75rem; display: inline-flex; flex: 0 0 auto; align-items: center; }
   .sign-out { position: absolute; top: 0.65rem; right: 0.75rem; min-width: 2.75rem; min-height: 2.75rem; text-align: center; }
   .admin-content { width: 100%; padding: 1.5rem; }
   .page-header { align-items: start; }

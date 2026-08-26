@@ -1,4 +1,5 @@
 import { Button } from '@template/ui'
+import { AdminNavigation, type AdminPage } from '../components/molecules/AdminNavigation'
 import { UserPanel, type PanelState } from '../components/organisms/UserPanel'
 import { UserTable } from '../components/organisms/UserTable'
 import type { User, UserDraft } from '@template/users-feature'
@@ -10,6 +11,7 @@ interface UserManagementTemplateProps {
   isLoading: boolean
   isSaving: boolean
   errorMessage: string | null
+  onNavigate: (page: AdminPage) => void
   onQueryChange: (query: string) => void
   onCreate: () => void
   onView: (user: User) => void
@@ -22,12 +24,8 @@ interface UserManagementTemplateProps {
 
 export function UserManagementTemplate(props: UserManagementTemplateProps) {
   return (
-    <div className="admin-shell">
-      <aside className="admin-sidebar">
-        <a className="admin-brand" href="#users">Kepler <span>Admin</span></a>
-        <nav aria-label="Admin navigation"><a className="active" href="#users">Users</a><a href="#roles">Roles</a><a href="#settings">Settings</a></nav>
-        <button className="sign-out" type="button" onClick={props.onSignOut}>Sign out</button>
-      </aside>
+    <div className="admin-shell" id="top">
+      <AdminNavigation activePage="users" onNavigate={props.onNavigate} onSignOut={props.onSignOut} />
       <main className="admin-content">
         <header className="page-header"><div><span className="page-eyebrow">Directory</span><h1>User management</h1><p>Create accounts, assign access, and manage user status.</p></div><Button onClick={props.onCreate} disabled={props.isSaving}>Add user</Button></header>
         <section className="user-directory" aria-labelledby="directory-title">
