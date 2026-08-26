@@ -269,7 +269,7 @@ Copy-Item apps/admin/.env.example apps/admin/.env
 
 ## Keeping the public tutorial current
 
-The Web application is also the repository's public, code-first tutorial. Each lesson has a direct hash route such as `#/tutorials/feature-queries`. When a change affects the architecture, package boundaries, APIs, tooling, developer workflow, or a meaningful user-facing feature, update the tutorial in `apps/web/src/pages/MonorepoTutorialPage.tsx` in the same change. Each tutorial example should name the real source file it represents and contain copyable implementation-faithful code. Keep the tutorial's routes and table of contents accurate whenever sections are added, removed, or renamed. Routine internal refactors, dependency patch updates, and isolated styling fixes do not need tutorial updates unless they change documented behavior.
+The Web application is also the repository's public, code-first tutorial. Each lesson has a direct hash route such as `#/tutorials/feature-queries` and a page component under `apps/web/src/pages/tutorials/`. When a change affects the architecture, package boundaries, APIs, tooling, developer workflow, or a meaningful user-facing feature, update the matching tutorial page and `apps/web/src/pages/MonorepoTutorialPage.tsx` in the same change. Each tutorial example should name the real source file it represents and contain copyable implementation-faithful code. Keep the tutorial's routes and table of contents accurate whenever sections are added, removed, or renamed. Routine internal refactors, dependency patch updates, and isolated styling fixes do not need tutorial updates unless they change documented behavior.
 
 ## Other commands
 

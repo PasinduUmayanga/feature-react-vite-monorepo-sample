@@ -3,6 +3,11 @@ import { Button, Checkbox, RadioButton, TextField } from '@template/ui'
 import { TutorialStepHeading } from '../components/molecules/TutorialStepHeading'
 import { TutorialFlow } from '../components/organisms/TutorialFlow'
 import { TutorialPageTemplate } from '../templates/TutorialPageTemplate'
+import { ApplicationsTutorialPage } from './tutorials/ApplicationsTutorialPage'
+import { AtomicDesignTutorialPage } from './tutorials/AtomicDesignTutorialPage'
+import { FeatureQueriesTutorialPage } from './tutorials/FeatureQueriesTutorialPage'
+import { SetupTutorialPage } from './tutorials/SetupTutorialPage'
+import { SharedUiTutorialPage } from './tutorials/SharedUiTutorialPage'
 
 type AppKind = 'web' | 'admin'
 type TutorialId = 'setup' | 'applications' | 'atomic-design' | 'shared-ui' | 'feature-queries'
@@ -395,7 +400,7 @@ export function MonorepoTutorialPage() {
         </div>
       </section>
 
-      {activeTutorial === 'setup' && <section className="setup-section" id="setup">
+      {activeTutorial === 'setup' && <SetupTutorialPage>
         <header className="section-heading">
           <span>01 · Initialize</span>
           <h2>Create the workspace root</h2>
@@ -411,9 +416,9 @@ export function MonorepoTutorialPage() {
             <pre><code>{workspaceConfig}</code></pre>
           </article>
         </div>
-      </section>}
+      </SetupTutorialPage>}
 
-      {activeTutorial === 'applications' && <section className="project-section" id="applications">
+      {activeTutorial === 'applications' && <ApplicationsTutorialPage>
         <header className="section-heading">
           <span>02 · Create applications</span>
           <h2>Choose a project</h2>
@@ -448,9 +453,9 @@ export function MonorepoTutorialPage() {
             <li><span>Run</span><code>{guide.runCommand}</code><button type="button" onClick={() => copyCommand('run', guide.runCommand)}>{copied === 'run' ? 'Copied' : 'Copy'}</button></li>
           </ol>
         </article>
-      </section>}
+      </ApplicationsTutorialPage>}
 
-      {activeTutorial === 'atomic-design' && <section className="atomic-section" id="atomic-design">
+      {activeTutorial === 'atomic-design' && <AtomicDesignTutorialPage>
         <header className="section-heading">
           <span>03 · Atomic Design</span>
           <h2>Build from small parts to complete pages</h2>
@@ -474,9 +479,9 @@ export function MonorepoTutorialPage() {
           <pre><code>{atomicCompositionCode}</code></pre>
         </article>
         <p className="atomic-rule"><strong>Rule:</strong> lower layers never import pages or templates. Shared, domain-neutral primitives belong in <code>@template/ui</code>.</p>
-      </section>}
+      </AtomicDesignTutorialPage>}
 
-      {activeTutorial === 'shared-ui' && <section className="shared-section" id="shared-ui">
+      {activeTutorial === 'shared-ui' && <SharedUiTutorialPage>
         <header className="section-heading">
           <span className="eyebrow">04 · Reuse</span>
           <h2>Create once, share with both apps.</h2>
@@ -542,9 +547,9 @@ export function MonorepoTutorialPage() {
             </form>
           </section>
         </TutorialFlow>
-      </section>}
+      </SharedUiTutorialPage>}
 
-      {activeTutorial === 'feature-queries' && <section className="architecture-section" id="feature-queries">
+      {activeTutorial === 'feature-queries' && <FeatureQueriesTutorialPage>
         <header className="section-heading">
           <span>05 · Server state</span>
           <h2>Keep APIs and queries with the domain.</h2>
@@ -618,7 +623,7 @@ export function MonorepoTutorialPage() {
           </section>
         </TutorialFlow>
         <p className="atomic-rule"><strong>Working rule:</strong> UI-only state stays in the app; API contracts, query keys, and server-state hooks stay in the owning feature package. Replace the DummyJSON adapter in <code>@template/users-feature</code> when a production users API is ready.</p>
-      </section>}
+      </FeatureQueriesTutorialPage>}
     </TutorialPageTemplate>
   )
 }
