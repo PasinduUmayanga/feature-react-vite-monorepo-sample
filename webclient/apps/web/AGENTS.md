@@ -7,6 +7,7 @@ These instructions apply to `apps/web` and extend the repository-level developme
 - This workspace owns routing, pages, application state, browser integration, and app-specific styles.
 - Move a component to `packages/ui` only when it is genuinely reusable and does not depend on application state or app-specific domain concepts.
 - Consume shared code through package imports such as `@template/ui`, never through `../../packages/...` paths.
+- `src/pages/MonorepoTutorialPage.tsx` is the public implementation tutorial for this monorepo. Keep its examples synchronized with meaningful architecture, workflow, API, package, and user-visible feature changes.
 
 ## React conventions
 
@@ -16,6 +17,7 @@ These instructions apply to `apps/web` and extend the repository-level developme
 - Use effects only to synchronize with external systems; keep effect dependencies complete.
 - Keep the application accessible: use semantic HTML, label controls, support keyboard interaction, and preserve visible focus states.
 - Avoid unnecessary memoization. Add it only for a measured problem or a stable-reference requirement.
+- Tutorial snippets must identify the real source file they explain and remain copyable. Use implementation-faithful excerpts rather than aspirational pseudocode; explain the code's purpose and ordering alongside it.
 
 ## Atomic Design structure
 

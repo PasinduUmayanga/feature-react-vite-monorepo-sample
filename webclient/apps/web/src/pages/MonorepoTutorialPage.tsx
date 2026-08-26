@@ -27,7 +27,8 @@ const appGuides = {
 
 const workspaceConfig = `packages:
   - apps/*
-  - packages/*`
+  - packages/*
+  - packages/features/*`
 
 const atomicFolderStructure = `apps/admin/src/            # same pattern for apps/web/src
 ├── components/
@@ -42,9 +43,7 @@ const atomicFolderStructure = `apps/admin/src/            # same pattern for app
 │   └── UserManagementTemplate.tsx
 ├── pages/                # state and user operations
 │   └── UserManagementPage.tsx
-├── services/             # APIs and browser storage
-├── data/                 # mock or seed data
-├── types/                # domain models
+├── services/             # browser storage and app integrations
 ├── styles/               # feature styles
 └── App.tsx               # application orchestration`
 
@@ -159,6 +158,107 @@ export function Example() {
   )
 }`
 
+const architectureTree = `webclient/
+├── apps/
+│   ├── web/                         # tutorial and public experience
+│   └── admin/                       # QueryClient + admin presentation
+└── packages/
+    ├── api-client/                  # request transport and errors
+    │   └── src/http-client.ts
+    └── features/
+        └── users/                   # user domain owns server state
+            └── src/
+                ├── api/users-client.ts
+                ├── queries/user-keys.ts
+                ├── queries/use-users.ts
+                └── queries/use-user-mutations.ts`
+
+const httpClientCode = `// packages/api-client/src/http-client.ts
+export function createHttpClient({ baseUrl, getAccessToken }: HttpClientOptions) {
+  async function request<T>(path: string, options: RequestOptions = {}): Promise<T> {
+    const headers = new Headers(options.headers)
+    const token = getAccessToken?.()
+
+    if (options.body !== undefined) headers.set('Content-Type', 'application/json')
+    if (token) headers.set('Authorization', \`Bearer \${token}\`)
+
+    const response = await fetch(new URL(path, baseUrl), {
+      ...options,
+      headers,
+      body: options.body === undefined ? undefined : JSON.stringify(options.body),
+    })
+
+    const payload: unknown = await response.json().catch(() => null)
+    if (!response.ok) throw new HttpError('Request failed.', response.status, payload)
+    return payload as T
+  }
+
+  return { request }
+}`
+
+const queryKeysCode = `// packages/features/users/src/queries/user-keys.ts
+export const userKeys = {
+  all: ['users'] as const,
+  lists: () => [...userKeys.all, 'list'] as const,
+}
+
+// packages/features/users/src/queries/use-users.ts
+export function useUsers() {
+  return useQuery({
+    queryKey: userKeys.lists(),
+    queryFn: getUsers,
+    staleTime: 60_000,
+  })
+}`
+
+const mutationCode = `// packages/features/users/src/queries/use-user-mutations.ts
+export function useCreateUser() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: createUser,
+    onSuccess: (createdUser) => {
+      queryClient.setQueryData<User[]>(userKeys.lists(), (users = []) =>
+        [createdUser, ...users]
+      )
+    },
+  })
+}`
+
+const providerCode = `// apps/admin/src/main.tsx
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: { retry: 1, refetchOnWindowFocus: false },
+  },
+})
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <App />
+    </QueryClientProvider>
+  </StrictMode>
+)`
+
+const pageUsageCode = `// apps/admin/src/pages/UserManagementPage.tsx
+const usersQuery = useUsers()
+const createUser = useCreateUser()
+const [panel, setPanel] = useState<PanelState | null>(null)
+
+async function handleSave(draft: UserDraft) {
+  await createUser.mutateAsync(draft)
+  setPanel(null)
+}
+
+return (
+  <UserManagementTemplate
+    users={usersQuery.data ?? []}
+    isLoading={usersQuery.isLoading}
+    errorMessage={usersQuery.isError ? 'Unable to load users.' : null}
+    onSave={handleSave}
+  />
+)`
+
 export function MonorepoTutorialPage() {
   const [activeApp, setActiveApp] = useState<AppKind>('web')
   const [copied, setCopied] = useState<string | null>(null)
@@ -178,7 +278,7 @@ export function MonorepoTutorialPage() {
     <TutorialPageTemplate>
       <nav className="topbar" aria-label="Project navigation">
         <a className="wordmark" href="#top">Kepler <span>Template</span></a>
-        <a href="#shared-ui">Shared UI</a>
+        <a href="#feature-queries">Feature queries</a>
       </nav>
 
       <section className="hero" id="top">
@@ -197,6 +297,8 @@ export function MonorepoTutorialPage() {
           <div className="tree-card__accent">│&nbsp; ├─ web/</div>
           <div className="tree-card__accent">│&nbsp; └─ admin/</div>
           <div>└─ packages/</div>
+          <div className="tree-card__shared">&nbsp;&nbsp; ├─ api-client/</div>
+          <div className="tree-card__shared">&nbsp;&nbsp; ├─ features/users/</div>
           <div className="tree-card__shared">&nbsp;&nbsp; └─ ui/</div>
         </div>
       </section>
@@ -260,7 +362,7 @@ export function MonorepoTutorialPage() {
         <header className="section-heading">
           <span>03 · Atomic Design</span>
           <h2>Build from small parts to complete pages</h2>
-          <p>Both applications place visual building blocks under <code>components/</code>. Dependencies flow upward: atoms → molecules → organisms → templates → pages.</p>
+          <p>Both applications place visual building blocks under <code>components/</code>. Dependencies flow upward: atoms → molecules → organisms → templates → pages. Server state belongs in feature packages.</p>
         </header>
         <div className="atomic-layout">
           <article className="code-card code-card--large">
@@ -348,6 +450,66 @@ export function MonorepoTutorialPage() {
             </form>
           </section>
         </TutorialFlow>
+      </section>
+
+      <section className="architecture-section" id="feature-queries">
+        <header className="section-heading">
+          <span>05 · Server state</span>
+          <h2>Keep APIs and queries with the domain.</h2>
+          <p>These are the same package boundaries and TanStack Query patterns used by the admin user directory in this repository.</p>
+        </header>
+        <p className="tutorial-source-rule"><strong>Source-of-truth rule:</strong> every snippet in this guide identifies the real file it documents and is updated alongside meaningful changes to the monorepo.</p>
+
+        <TutorialFlow>
+          <section className="tutorial-step">
+            <TutorialStepHeading step="1" title="Create a shared HTTP boundary">The API client owns transport, parsing, normalized errors, and optional access-token injection. It has no React or browser-storage dependency.</TutorialStepHeading>
+            <article className="code-card code-card--large">
+              <div className="code-card__header"><span>packages/api-client/src/http-client.ts</span><button type="button" onClick={() => copyCommand('http-client', httpClientCode)}>{copied === 'http-client' ? 'Copied' : 'Copy'}</button></div>
+              <pre><code>{httpClientCode}</code></pre>
+            </article>
+          </section>
+
+          <section className="tutorial-step">
+            <TutorialStepHeading step="2" title="Give each feature its own public API">The users feature exports domain types, API operations, query keys, and hooks. Apps import <code>@template/users-feature</code> instead of reaching into another app.</TutorialStepHeading>
+            <article className="code-card code-card--large">
+              <div className="code-card__header"><span>Feature package layout</span><button type="button" onClick={() => copyCommand('architecture-tree', architectureTree)}>{copied === 'architecture-tree' ? 'Copied' : 'Copy'}</button></div>
+              <pre><code>{architectureTree}</code></pre>
+            </article>
+          </section>
+
+          <section className="tutorial-step">
+            <TutorialStepHeading step="3" title="Centralize cache keys and reads">Query keys live beside the queries, so invalidation and cache updates cannot drift between screens.</TutorialStepHeading>
+            <article className="code-card">
+              <div className="code-card__header"><span>users query key + hook</span><button type="button" onClick={() => copyCommand('query-keys', queryKeysCode)}>{copied === 'query-keys' ? 'Copied' : 'Copy'}</button></div>
+              <pre><code>{queryKeysCode}</code></pre>
+            </article>
+          </section>
+
+          <section className="tutorial-step">
+            <TutorialStepHeading step="4" title="Let mutations own cache changes">A create, update, or delete hook updates the relevant query cache. Pages stay focused on user interactions rather than cache plumbing.</TutorialStepHeading>
+            <article className="code-card">
+              <div className="code-card__header"><span>create-user mutation</span><button type="button" onClick={() => copyCommand('mutation', mutationCode)}>{copied === 'mutation' ? 'Copied' : 'Copy'}</button></div>
+              <pre><code>{mutationCode}</code></pre>
+            </article>
+          </section>
+
+          <section className="tutorial-step">
+            <TutorialStepHeading step="5" title="Mount one Query client per application">Caching policy is application-owned, so the admin app supplies its own provider at the React root.</TutorialStepHeading>
+            <article className="code-card">
+              <div className="code-card__header"><span>apps/admin/src/main.tsx</span><button type="button" onClick={() => copyCommand('provider', providerCode)}>{copied === 'provider' ? 'Copied' : 'Copy'}</button></div>
+              <pre><code>{providerCode}</code></pre>
+            </article>
+          </section>
+
+          <section className="tutorial-step">
+            <TutorialStepHeading step="6" title="Keep pages responsible for UI state">The page owns the editor panel and presentation decisions. The feature hooks own remote data, loading state, and mutations.</TutorialStepHeading>
+            <article className="code-card code-card--large">
+              <div className="code-card__header"><span>apps/admin/src/pages/UserManagementPage.tsx</span><button type="button" onClick={() => copyCommand('page-usage', pageUsageCode)}>{copied === 'page-usage' ? 'Copied' : 'Copy'}</button></div>
+              <pre><code>{pageUsageCode}</code></pre>
+            </article>
+          </section>
+        </TutorialFlow>
+        <p className="atomic-rule"><strong>Working rule:</strong> UI-only state stays in the app; API contracts, query keys, and server-state hooks stay in the owning feature package. Replace the DummyJSON adapter in <code>@template/users-feature</code> when a production users API is ready.</p>
       </section>
     </TutorialPageTemplate>
   )
