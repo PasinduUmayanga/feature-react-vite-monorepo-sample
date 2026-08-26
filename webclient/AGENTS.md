@@ -7,6 +7,8 @@ This directory is the frontend root: a React and Vite monorepo managed with pnpm
 - `apps/web`: browser application built with React, TypeScript, and Vite.
 - `apps/admin`: administration application built with React, TypeScript, and Vite.
 - `packages/ui`: shared React components consumed by workspace applications.
+- `packages/api-client`: shared, framework-neutral HTTP transport and error handling.
+- `packages/features/*`: feature-owned domain types, API operations, query keys, and TanStack Query hooks.
 - `pnpm-workspace.yaml`: workspace discovery and dependency build policy.
 - `tsconfig.json`: root TypeScript project references.
 
@@ -44,11 +46,14 @@ pnpm --filter @template/ui <command>
 - Keep TypeScript strict and avoid `any`; model unknown external data with `unknown` and narrow it.
 - Prefer named exports for components, utilities, and types.
 - Keep application-only code in `apps/` and reusable code in `packages/`.
+- Keep server-state access in feature packages. Applications may own presentation and transient UI state, but must consume feature hooks rather than call APIs directly.
+- Keep the HTTP client framework-neutral. Authentication/session storage remains at the application boundary and supplies tokens only when needed.
 - Do not import another workspace through relative filesystem paths. Add it as a workspace dependency and import its public package API.
 - Keep package entry points explicit and export only supported public APIs.
 - Preserve the existing formatting style: single quotes, trailing commas, and no semicolons in TypeScript.
 - Never edit generated files in `dist/` or dependency files in `node_modules/`.
 - Update the README and relevant `AGENTS.md` when commands, structure, or architectural conventions change.
+- Keep the public Web tutorial aligned with meaningful implementation changes. When a change affects architecture, package boundaries, APIs, tooling, developer workflow, or user-visible feature behavior, update `apps/web/src/pages/MonorepoTutorialPage.tsx` with accurate, copyable code and the relevant file paths. Routine internal refactors, dependency patch updates, and isolated styling fixes do not need a tutorial update unless they change the lesson or behavior.
 
 ## Adding a workspace
 

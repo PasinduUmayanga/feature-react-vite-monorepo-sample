@@ -1,6 +1,6 @@
 import { StatusBadge } from '../atoms/StatusBadge'
 import { UserActions } from '../molecules/UserActions'
-import type { User } from '../../types/user'
+import type { User } from '@template/users-feature'
 
 interface UserTableProps {
   users: User[]

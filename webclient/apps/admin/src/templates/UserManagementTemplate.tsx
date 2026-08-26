@@ -1,12 +1,15 @@
 import { Button } from '@template/ui'
 import { UserPanel, type PanelState } from '../components/organisms/UserPanel'
 import { UserTable } from '../components/organisms/UserTable'
-import type { User, UserDraft } from '../types/user'
+import type { User, UserDraft } from '@template/users-feature'
 
 interface UserManagementTemplateProps {
   users: User[]
   query: string
   panel: PanelState | null
+  isLoading: boolean
+  isSaving: boolean
+  errorMessage: string | null
   onQueryChange: (query: string) => void
   onCreate: () => void
   onView: (user: User) => void
@@ -26,13 +29,14 @@ export function UserManagementTemplate(props: UserManagementTemplateProps) {
         <button className="sign-out" type="button" onClick={props.onSignOut}>Sign out</button>
       </aside>
       <main className="admin-content">
-        <header className="page-header"><div><span className="page-eyebrow">Directory</span><h1>User management</h1><p>Create accounts, assign access, and manage user status.</p></div><Button onClick={props.onCreate}>Add user</Button></header>
+        <header className="page-header"><div><span className="page-eyebrow">Directory</span><h1>User management</h1><p>Create accounts, assign access, and manage user status.</p></div><Button onClick={props.onCreate} disabled={props.isSaving}>Add user</Button></header>
         <section className="user-directory" aria-labelledby="directory-title">
           <div className="directory-toolbar"><div><h2 id="directory-title">All users</h2><span>{props.users.length} shown</span></div><label className="search-field"><span className="sr-only">Search users</span><input type="search" placeholder="Search name or email" value={props.query} onChange={(event) => props.onQueryChange(event.target.value)} /></label></div>
-          <UserTable users={props.users} onView={props.onView} onEdit={props.onEdit} onDelete={props.onDelete} />
+          {props.errorMessage && <p className="user-feedback" role="alert">{props.errorMessage}</p>}
+          {props.isLoading ? <div className="empty-state" role="status">Loading users…</div> : <UserTable users={props.users} onView={props.onView} onEdit={props.onEdit} onDelete={props.onDelete} />}
         </section>
       </main>
-      {props.panel && <UserPanel panel={props.panel} onClose={props.onClosePanel} onSave={props.onSave} />}
+      {props.panel && <UserPanel panel={props.panel} isSaving={props.isSaving} onClose={props.onClosePanel} onSave={props.onSave} />}
     </div>
   )
 }

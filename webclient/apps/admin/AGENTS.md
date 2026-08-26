@@ -6,7 +6,7 @@ These instructions apply to `apps/admin` and extend the repository-level develop
 
 - This workspace owns authenticated administration experiences, operational dashboards, and management workflows.
 - Keep authorization checks enforced by the backing service; client-side route guards improve navigation but are not a security boundary.
-- Keep admin-only domain code here. Move only genuinely reusable, domain-neutral components into `packages/ui`.
+- Keep admin-only presentation and workflow code here. Shared domain types, API operations, query keys, and TanStack Query hooks belong in `packages/features/*`; move only genuinely reusable, domain-neutral components into `packages/ui`.
 - Consume shared code through package imports such as `@template/ui`, never through relative paths into another workspace.
 
 ## React conventions
@@ -21,7 +21,7 @@ These instructions apply to `apps/admin` and extend the repository-level develop
 ## Atomic Design structure
 
 - Use `src/components/atoms`, `src/components/molecules`, `src/components/organisms`, `src/templates`, and `src/pages`, matching the Web application; do not add a `src/features` wrapper.
-- Keep domain models in `src/types`, seed or mock records in `src/data`, API and browser-storage integration in `src/services`, and feature styles in `src/styles`.
+- Keep transient page state in pages, browser-storage integration in `src/services`, and feature styles in `src/styles`. Import shared domain models and server-state hooks from their feature package rather than creating app-local copies.
 - Atoms remain small and presentation-focused. Molecules combine atoms, organisms compose complete sections, and templates arrange organisms without owning domain state.
 - Pages own feature state and operations. `App.tsx` handles only application-level session and page selection.
 - Dependencies flow upward through the Atomic Design layers; lower layers must not import templates or pages.

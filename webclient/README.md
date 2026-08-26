@@ -13,7 +13,7 @@
 [![Last commit](https://img.shields.io/github/last-commit/PasinduUmayanga/feature-react-vite-monorepo-sample)](https://github.com/PasinduUmayanga/feature-react-vite-monorepo-sample/commits/main)
 [![License](https://img.shields.io/github/license/PasinduUmayanga/feature-react-vite-monorepo-sample)](https://github.com/PasinduUmayanga/feature-react-vite-monorepo-sample/blob/main/LICENSE)
 
-This folder contains two React applications and a shared component package, managed as a pnpm workspace.
+This folder contains two React applications and shared packages, managed as a pnpm workspace.
 
 ## Live Demo
 
@@ -37,7 +37,9 @@ webclient/
 │  ├─ web/       Public web application
 │  └─ admin/     Administration application
 ├─ packages/
-│  └─ ui/        Components shared by web and admin
+│  ├─ api-client/       Framework-neutral HTTP transport and errors
+│  ├─ features/users/   User API operations, query keys, and TanStack Query hooks
+│  └─ ui/               Components shared by web and admin
 ├─ package.json
 ├─ pnpm-lock.yaml
 └─ pnpm-workspace.yaml
@@ -245,6 +247,16 @@ pnpm add -Dw <package-name>
 ```
 
 Internal workspace dependencies must use the `workspace:*` protocol. Both applications already consume the shared UI package as `@template/ui`.
+
+## Data-access architecture
+
+Server state belongs to a feature package, not individual screens. The admin app mounts a TanStack Query provider and consumes `@template/users-feature` hooks for its user directory. `@template/api-client` owns request transport and normalized network/HTTP errors, while application code owns session storage and UI-only state such as open panels and search terms.
+
+The current user directory is backed by DummyJSON for demonstration. DummyJSON simulates write operations without persisting them, so successful create, update, and delete operations update the TanStack Query cache for the current browser session. Replace the feature package's API adapter when a production users service is available.
+
+## Keeping the public tutorial current
+
+The Web application is also the repository's public, code-first tutorial. When a change affects the architecture, package boundaries, APIs, tooling, developer workflow, or a meaningful user-facing feature, update the tutorial in `apps/web/src/pages/MonorepoTutorialPage.tsx` in the same change. Each tutorial example should name the real source file it represents and contain copyable implementation-faithful code. Routine internal refactors, dependency patch updates, and isolated styling fixes do not need tutorial updates unless they change documented behavior.
 
 ## Other commands
 
