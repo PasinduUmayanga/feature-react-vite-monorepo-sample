@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { useCreateUser, useDeleteUser, useUpdateUser, useUsers, type User, type UserDraft } from '@template/users-feature'
 import type { PanelState } from '../components/organisms/UserPanel'
+import { usersApi } from '../config/users-api'
 import { UserManagementTemplate } from '../templates/UserManagementTemplate'
 import '../styles/users.css'
 
@@ -9,10 +10,10 @@ interface UserManagementPageProps {
 }
 
 export function UserManagementPage({ onSignOut }: UserManagementPageProps) {
-  const usersQuery = useUsers()
-  const createUser = useCreateUser()
-  const updateUser = useUpdateUser()
-  const deleteUser = useDeleteUser()
+  const usersQuery = useUsers(usersApi)
+  const createUser = useCreateUser(usersApi)
+  const updateUser = useUpdateUser(usersApi)
+  const deleteUser = useDeleteUser(usersApi)
   const [query, setQuery] = useState('')
   const [panel, setPanel] = useState<PanelState | null>(null)
   const [mutationError, setMutationError] = useState<string | null>(null)

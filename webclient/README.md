@@ -254,6 +254,16 @@ Server state belongs to a feature package, not individual screens. The admin app
 
 The current user directory is backed by DummyJSON for demonstration. DummyJSON simulates write operations without persisting them, so successful create, update, and delete operations update the TanStack Query cache for the current browser session. Replace the feature package's API adapter when a production users service is available.
 
+## Environment configuration
+
+The admin application's public API base URL is kept in `apps/admin/.env` and validated by `apps/admin/src/config/environment.ts` before it is supplied to authentication and feature API factories. Create the local file from the committed example:
+
+```powershell
+Copy-Item apps/admin/.env.example apps/admin/.env
+```
+
+`VITE_API_BASE_URL` is intentionally public browser configuration, not a secret. Use an HTTPS URL in deployed environments and keep credentials, tokens, and private keys in server-side secret management rather than any `VITE_*` variable.
+
 ## Keeping the public tutorial current
 
 The Web application is also the repository's public, code-first tutorial. When a change affects the architecture, package boundaries, APIs, tooling, developer workflow, or a meaningful user-facing feature, update the tutorial in `apps/web/src/pages/MonorepoTutorialPage.tsx` in the same change. Each tutorial example should name the real source file it represents and contain copyable implementation-faithful code. Routine internal refactors, dependency patch updates, and isolated styling fixes do not need tutorial updates unless they change documented behavior.

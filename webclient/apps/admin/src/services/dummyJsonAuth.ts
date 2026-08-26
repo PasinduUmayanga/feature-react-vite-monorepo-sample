@@ -1,7 +1,8 @@
 import { HttpError, NetworkError, createHttpClient } from '@template/api-client'
+import { environment } from '../config/environment'
 
 const SESSION_KEY = 'kepler-admin-session'
-const client = createHttpClient({ baseUrl: 'https://dummyjson.com' })
+const client = createHttpClient({ baseUrl: environment.apiBaseUrl })
 
 export interface AdminSession {
   id: number

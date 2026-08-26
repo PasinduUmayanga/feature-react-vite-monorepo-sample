@@ -162,6 +162,9 @@ const architectureTree = `webclient/
 ├── apps/
 │   ├── web/                         # tutorial and public experience
 │   └── admin/                       # QueryClient + admin presentation
+│       ├── .env                     # ignored, public local configuration
+│       ├── .env.example             # committed configuration contract
+│       └── src/config/environment.ts
 └── packages/
     ├── api-client/                  # request transport and errors
     │   └── src/http-client.ts
@@ -196,6 +199,26 @@ export function createHttpClient({ baseUrl, getAccessToken }: HttpClientOptions)
   return { request }
 }`
 
+const environmentCode = `# apps/admin/.env.example
+# Public browser configuration only. Never add secrets, tokens, or credentials.
+VITE_API_BASE_URL=https://dummyjson.com
+
+// apps/admin/src/config/environment.ts
+function readApiBaseUrl(value: string | undefined) {
+  if (!value) throw new Error('VITE_API_BASE_URL must be configured.')
+
+  const url = new URL(value)
+  if (!['http:', 'https:'].includes(url.protocol)) {
+    throw new Error('VITE_API_BASE_URL must use HTTP or HTTPS.')
+  }
+
+  return url.toString().replace(/\\/$/, '')
+}
+
+export const environment = {
+  apiBaseUrl: readApiBaseUrl(import.meta.env.VITE_API_BASE_URL),
+}`
+
 const queryKeysCode = `// packages/features/users/src/queries/user-keys.ts
 export const userKeys = {
   all: ['users'] as const,
@@ -203,20 +226,20 @@ export const userKeys = {
 }
 
 // packages/features/users/src/queries/use-users.ts
-export function useUsers() {
+export function useUsers(usersApi: UsersApi) {
   return useQuery({
     queryKey: userKeys.lists(),
-    queryFn: getUsers,
+    queryFn: usersApi.getUsers,
     staleTime: 60_000,
   })
 }`
 
 const mutationCode = `// packages/features/users/src/queries/use-user-mutations.ts
-export function useCreateUser() {
+export function useCreateUser(usersApi: UsersApi) {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: createUser,
+    mutationFn: usersApi.createUser,
     onSuccess: (createdUser) => {
       queryClient.setQueryData<User[]>(userKeys.lists(), (users = []) =>
         [createdUser, ...users]
@@ -241,8 +264,8 @@ createRoot(document.getElementById('root')!).render(
 )`
 
 const pageUsageCode = `// apps/admin/src/pages/UserManagementPage.tsx
-const usersQuery = useUsers()
-const createUser = useCreateUser()
+const usersQuery = useUsers(usersApi)
+const createUser = useCreateUser(usersApi)
 const [panel, setPanel] = useState<PanelState | null>(null)
 
 async function handleSave(draft: UserDraft) {
@@ -470,7 +493,15 @@ export function MonorepoTutorialPage() {
           </section>
 
           <section className="tutorial-step">
-            <TutorialStepHeading step="2" title="Give each feature its own public API">The users feature exports domain types, API operations, query keys, and hooks. Apps import <code>@template/users-feature</code> instead of reaching into another app.</TutorialStepHeading>
+            <TutorialStepHeading step="2" title="Keep public URLs in application configuration">The ignored local <code>.env</code> holds the clean API URL. Its committed example is the deployment contract; the application validates it before sharing it with feature API factories.</TutorialStepHeading>
+            <article className="code-card code-card--large">
+              <div className="code-card__header"><span>apps/admin/.env.example + src/config/environment.ts</span><button type="button" onClick={() => copyCommand('environment', environmentCode)}>{copied === 'environment' ? 'Copied' : 'Copy'}</button></div>
+              <pre><code>{environmentCode}</code></pre>
+            </article>
+          </section>
+
+          <section className="tutorial-step">
+            <TutorialStepHeading step="3" title="Give each feature its own public API">The users feature exports domain types, API operations, query keys, and hooks. Apps import <code>@template/users-feature</code> instead of reaching into another app.</TutorialStepHeading>
             <article className="code-card code-card--large">
               <div className="code-card__header"><span>Feature package layout</span><button type="button" onClick={() => copyCommand('architecture-tree', architectureTree)}>{copied === 'architecture-tree' ? 'Copied' : 'Copy'}</button></div>
               <pre><code>{architectureTree}</code></pre>
@@ -478,7 +509,7 @@ export function MonorepoTutorialPage() {
           </section>
 
           <section className="tutorial-step">
-            <TutorialStepHeading step="3" title="Centralize cache keys and reads">Query keys live beside the queries, so invalidation and cache updates cannot drift between screens.</TutorialStepHeading>
+            <TutorialStepHeading step="4" title="Centralize cache keys and reads">Query keys live beside the queries, so invalidation and cache updates cannot drift between screens.</TutorialStepHeading>
             <article className="code-card">
               <div className="code-card__header"><span>users query key + hook</span><button type="button" onClick={() => copyCommand('query-keys', queryKeysCode)}>{copied === 'query-keys' ? 'Copied' : 'Copy'}</button></div>
               <pre><code>{queryKeysCode}</code></pre>
@@ -486,7 +517,7 @@ export function MonorepoTutorialPage() {
           </section>
 
           <section className="tutorial-step">
-            <TutorialStepHeading step="4" title="Let mutations own cache changes">A create, update, or delete hook updates the relevant query cache. Pages stay focused on user interactions rather than cache plumbing.</TutorialStepHeading>
+            <TutorialStepHeading step="5" title="Let mutations own cache changes">A create, update, or delete hook updates the relevant query cache. Pages stay focused on user interactions rather than cache plumbing.</TutorialStepHeading>
             <article className="code-card">
               <div className="code-card__header"><span>create-user mutation</span><button type="button" onClick={() => copyCommand('mutation', mutationCode)}>{copied === 'mutation' ? 'Copied' : 'Copy'}</button></div>
               <pre><code>{mutationCode}</code></pre>
@@ -494,7 +525,7 @@ export function MonorepoTutorialPage() {
           </section>
 
           <section className="tutorial-step">
-            <TutorialStepHeading step="5" title="Mount one Query client per application">Caching policy is application-owned, so the admin app supplies its own provider at the React root.</TutorialStepHeading>
+            <TutorialStepHeading step="6" title="Mount one Query client per application">Caching policy is application-owned, so the admin app supplies its own provider at the React root.</TutorialStepHeading>
             <article className="code-card">
               <div className="code-card__header"><span>apps/admin/src/main.tsx</span><button type="button" onClick={() => copyCommand('provider', providerCode)}>{copied === 'provider' ? 'Copied' : 'Copy'}</button></div>
               <pre><code>{providerCode}</code></pre>
@@ -502,7 +533,7 @@ export function MonorepoTutorialPage() {
           </section>
 
           <section className="tutorial-step">
-            <TutorialStepHeading step="6" title="Keep pages responsible for UI state">The page owns the editor panel and presentation decisions. The feature hooks own remote data, loading state, and mutations.</TutorialStepHeading>
+            <TutorialStepHeading step="7" title="Keep pages responsible for UI state">The page owns the editor panel and presentation decisions. The feature hooks own remote data, loading state, and mutations.</TutorialStepHeading>
             <article className="code-card code-card--large">
               <div className="code-card__header"><span>apps/admin/src/pages/UserManagementPage.tsx</span><button type="button" onClick={() => copyCommand('page-usage', pageUsageCode)}>{copied === 'page-usage' ? 'Copied' : 'Copy'}</button></div>
               <pre><code>{pageUsageCode}</code></pre>
