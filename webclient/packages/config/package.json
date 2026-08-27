@@ -1,0 +1,9 @@
+{
+  "name": "@template/config",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "exports": { ".": "./src/index.ts" },
+  "scripts": { "build": "tsc -b", "typecheck": "tsc -b --pretty false", "clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\"" },
+  "devDependencies": { "typescript": "~6.0.3" }
+}

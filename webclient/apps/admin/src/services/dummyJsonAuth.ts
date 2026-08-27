@@ -1,4 +1,5 @@
 import { HttpError, NetworkError, createHttpClient } from '@template/api-client'
+import { clearSession, readSession, storeSession, type StoredSessionOptions } from '@template/auth'
 import { environment } from '../config/environment'
 
 const SESSION_KEY = 'kepler-admin-session'
@@ -49,28 +50,19 @@ export async function authenticateAdmin(username: string, password: string): Pro
   }
 }
 
+const sessionOptions: StoredSessionOptions<AdminSession> = {
+  key: SESSION_KEY,
+  isSession: isAdminSession,
+}
+
 export function storeAdminSession(session: AdminSession, remember: boolean) {
-  clearAdminSession()
-  const storage = remember ? localStorage : sessionStorage
-  storage.setItem(SESSION_KEY, JSON.stringify(session))
+  storeSession(sessionOptions, session, remember)
 }
 
 export function readAdminSession(): AdminSession | null {
-  for (const storage of [localStorage, sessionStorage]) {
-    const value = storage.getItem(SESSION_KEY)
-    if (!value) continue
-
-    try {
-      const session: unknown = JSON.parse(value)
-      if (isAdminSession(session)) return session
-    } catch {
-      storage.removeItem(SESSION_KEY)
-    }
-  }
-  return null
+  return readSession(sessionOptions)
 }
 
 export function clearAdminSession() {
-  localStorage.removeItem(SESSION_KEY)
-  sessionStorage.removeItem(SESSION_KEY)
+  clearSession(sessionOptions)
 }

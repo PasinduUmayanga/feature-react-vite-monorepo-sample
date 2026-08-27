@@ -8,6 +8,8 @@ This directory is the frontend root: a React and Vite monorepo managed with pnpm
 - `apps/admin`: administration application built with React, TypeScript, and Vite.
 - `packages/ui`: shared React components consumed by workspace applications.
 - `packages/api-client`: shared, framework-neutral HTTP transport and error handling.
+- `packages/auth`: shared browser-session storage contracts; identity-provider requests remain application-owned.
+- `packages/config`: framework-neutral configuration validation helpers; applications read their own environment values.
 - `packages/hooks`: shared, domain-neutral React hooks consumed by workspace applications.
 - `packages/eslint-config`: shared flat ESLint configuration consumed by the workspace root.
 - `packages/utilities`: shared date, formatting, and validation helpers.

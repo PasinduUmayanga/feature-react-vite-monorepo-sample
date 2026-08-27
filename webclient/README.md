@@ -40,6 +40,8 @@ webclient/
 │  └─ admin/     Administration application
 ├─ packages/
 │  ├─ api-client/       Framework-neutral HTTP transport and errors
+│  ├─ auth/             Typed browser-session persistence helpers
+│  ├─ config/           Framework-neutral configuration validators
 │  ├─ eslint-config/    Shared flat ESLint configuration
 │  ├─ hooks/            Shared, domain-neutral React hooks
 │  ├─ utilities/        Date, formatting, and validation helpers
