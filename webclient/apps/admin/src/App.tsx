@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useDocumentTitle } from '@template/hooks'
 import type { LoginCredentials } from '@template/ui'
 import { AdminLoginPage } from './pages/AdminLoginPage'
 import { UserManagementPage } from './pages/UserManagementPage'
@@ -11,6 +12,7 @@ export function App() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [activePage, setActivePage] = useState<AdminPage>('users')
+  useDocumentTitle(session ? `Kepler Admin — ${activePage === 'reports' ? 'User Reports' : 'User Management'}` : 'Kepler Admin — Administration Console')
 
   async function handleLogin(credentials: LoginCredentials) {
     setIsSubmitting(true)

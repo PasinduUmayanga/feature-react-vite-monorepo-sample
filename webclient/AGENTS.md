@@ -8,6 +8,7 @@ This directory is the frontend root: a React and Vite monorepo managed with pnpm
 - `apps/admin`: administration application built with React, TypeScript, and Vite.
 - `packages/ui`: shared React components consumed by workspace applications.
 - `packages/api-client`: shared, framework-neutral HTTP transport and error handling.
+- `packages/hooks`: shared, domain-neutral React hooks consumed by workspace applications.
 - `packages/features/*`: feature-owned domain types, API operations, query keys, and TanStack Query hooks.
 - `pnpm-workspace.yaml`: workspace discovery and dependency build policy.
 - `tsconfig.json`: root TypeScript project references.

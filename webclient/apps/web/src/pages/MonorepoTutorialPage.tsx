@@ -2,21 +2,24 @@ import { useEffect, useState } from 'react'
 import { Button, Checkbox, RadioButton, TextField } from '@template/ui'
 import { TutorialStepHeading } from '../components/molecules/TutorialStepHeading'
 import { TutorialFlow } from '../components/organisms/TutorialFlow'
+import { HooksPlayground } from '../components/organisms/HooksPlayground'
 import { TutorialPageTemplate } from '../templates/TutorialPageTemplate'
 import { ApplicationsTutorialPage } from './tutorials/ApplicationsTutorialPage'
 import { AtomicDesignTutorialPage } from './tutorials/AtomicDesignTutorialPage'
 import { FeatureQueriesTutorialPage } from './tutorials/FeatureQueriesTutorialPage'
 import { SetupTutorialPage } from './tutorials/SetupTutorialPage'
 import { SharedUiTutorialPage } from './tutorials/SharedUiTutorialPage'
+import { HooksTutorialPage } from './tutorials/HooksTutorialPage'
 
 type AppKind = 'web' | 'admin'
-type TutorialId = 'setup' | 'applications' | 'atomic-design' | 'shared-ui' | 'feature-queries'
+type TutorialId = 'setup' | 'applications' | 'atomic-design' | 'shared-ui' | 'hooks' | 'feature-queries'
 
 const tutorialSections = [
   { id: 'setup', label: 'Initialize', detail: 'Workspace root' },
   { id: 'applications', label: 'Applications', detail: 'Web and Admin apps' },
   { id: 'atomic-design', label: 'Atomic Design', detail: 'Application UI layers' },
   { id: 'shared-ui', label: 'Shared UI', detail: 'Reusable components' },
+  { id: 'hooks', label: 'Hooks', detail: 'State, callbacks, and effects' },
   { id: 'feature-queries', label: 'Feature queries', detail: 'Server state and reports' },
 ] as const satisfies readonly { id: TutorialId; label: string; detail: string }[]
 
@@ -177,6 +180,25 @@ export function Example() {
   )
 }`
 
+const counterHookCode = `// packages/hooks/src/useCounter.ts
+import { useCallback, useState } from 'react'
+
+export function useCounter(initialValue = 0) {
+  const [count, setCount] = useState(initialValue)
+
+  const increment = useCallback(() => setCount((current) => current + 1), [])
+  const decrement = useCallback(() => setCount((current) => current - 1), [])
+  const reset = useCallback(() => setCount(initialValue), [initialValue])
+
+  return { count, increment, decrement, reset }
+}`
+
+const effectHookCode = `// apps/web/src/components/organisms/HooksPlayground.tsx
+import { useCounter, useDocumentTitle } from '@template/hooks'
+
+const { count, decrement, increment, reset } = useCounter()
+useDocumentTitle(\`${'${count}'} clicks — Kepler Web\`)`
+
 const architectureTree = `webclient/
 ├── apps/
 │   ├── web/                         # tutorial and public experience
@@ -187,6 +209,7 @@ const architectureTree = `webclient/
 └── packages/
     ├── api-client/                  # request transport and errors
     │   └── src/http-client.ts
+    ├── hooks/                       # shared React hooks
     └── features/
         ├── reports/                 # report aggregation and query hooks
         └── users/                   # user domain owns server state
@@ -361,7 +384,7 @@ export function MonorepoTutorialPage() {
   return (
     <TutorialPageTemplate>
       <nav className="topbar" aria-label="Project navigation">
-        <a className="wordmark" href="#top">Kepler <span>Template</span></a>
+        <a className="wordmark" href="#top">Kepler <span>Web</span></a>
         <a href="#/tutorials/feature-queries">Feature queries</a>
       </nav>
 
@@ -551,9 +574,37 @@ export function MonorepoTutorialPage() {
         </TutorialFlow>
       </SharedUiTutorialPage>}
 
+      {activeTutorial === 'hooks' && <HooksTutorialPage>
+        <header className="section-heading">
+          <span>05 · React Hooks</span>
+          <h2>Learn hooks with a real interaction.</h2>
+          <p>Keep reusable state logic in a custom hook, and use effects only when synchronizing React with an external system.</p>
+        </header>
+        <TutorialFlow>
+          <section className="tutorial-step">
+            <TutorialStepHeading step="1" title="Extract reusable state with useState">The shared counter hook owns its state and exposes small actions. <code>useCallback</code> keeps each action stable when a consumer needs a stable function reference.</TutorialStepHeading>
+            <article className="code-card code-card--large">
+              <div className="code-card__header"><span>packages/hooks/src/useCounter.ts</span><button type="button" onClick={() => copyCommand('counter-hook', counterHookCode)}>{copied === 'counter-hook' ? 'Copied' : 'Copy'}</button></div>
+              <pre><code>{counterHookCode}</code></pre>
+            </article>
+          </section>
+          <section className="tutorial-step">
+            <TutorialStepHeading step="2" title="Use an effect hook for an external system"><code>useDocumentTitle</code> wraps the effect that synchronizes the browser tab title and restores it when the consumer unmounts. Both Web and Admin use this shared hook.</TutorialStepHeading>
+            <article className="code-card">
+              <div className="code-card__header"><span>HooksPlayground.tsx</span><button type="button" onClick={() => copyCommand('effect-hook', effectHookCode)}>{copied === 'effect-hook' ? 'Copied' : 'Copy'}</button></div>
+              <pre><code>{effectHookCode}</code></pre>
+            </article>
+          </section>
+          <section className="tutorial-step">
+            <TutorialStepHeading step="3" title="Try the hook">Use the controls below, then check the browser tab title. Reset returns the hook to its initial value.</TutorialStepHeading>
+            <HooksPlayground />
+          </section>
+        </TutorialFlow>
+      </HooksTutorialPage>}
+
       {activeTutorial === 'feature-queries' && <FeatureQueriesTutorialPage>
         <header className="section-heading">
-          <span>05 · Server state</span>
+          <span>06 · Server state</span>
           <h2>Keep APIs and queries with the domain.</h2>
           <p>These are the same package boundaries and TanStack Query patterns used by the admin user directory in this repository.</p>
         </header>

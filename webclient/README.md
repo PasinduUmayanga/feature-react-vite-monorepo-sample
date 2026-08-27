@@ -38,6 +38,7 @@ webclient/
 │  └─ admin/     Administration application
 ├─ packages/
 │  ├─ api-client/       Framework-neutral HTTP transport and errors
+│  ├─ hooks/            Shared, domain-neutral React hooks
 │  ├─ features/reports/ User report types, aggregation, and query hooks
 │  ├─ features/users/   User API operations, query keys, and TanStack Query hooks
 │  └─ ui/               Components shared by web and admin
