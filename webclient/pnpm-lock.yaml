@@ -11,6 +11,9 @@ importers:
       '@eslint/js':
         specifier: ^9.39.5
         version: 9.39.5
+      '@template/eslint-config':
+        specifier: workspace:*
+        version: link:packages/eslint-config
       eslint:
         specifier: ^9.39.5
         version: 9.39.5
@@ -53,6 +56,9 @@ importers:
       '@template/users-feature':
         specifier: workspace:*
         version: link:../../packages/features/users
+      '@template/utilities':
+        specifier: workspace:*
+        version: link:../../packages/utilities
       react:
         specifier: ^19.2.8
         version: 19.2.8
@@ -84,9 +90,6 @@ importers:
       '@template/ui':
         specifier: workspace:*
         version: link:../../packages/ui
-      '@template/utils':
-        specifier: workspace:*
-        version: link:../../packages/utils
       react:
         specifier: ^19.2.8
         version: 19.2.8
@@ -115,6 +118,30 @@ importers:
       typescript:
         specifier: ~6.0.3
         version: 6.0.3
+
+  packages/eslint-config:
+    dependencies:
+      '@eslint/js':
+        specifier: ^9.0.0
+        version: 9.39.5
+      eslint:
+        specifier: ^9.0.0
+        version: 9.39.5
+      eslint-plugin-jsx-a11y:
+        specifier: ^6.0.0
+        version: 6.10.2(eslint@9.39.5)
+      eslint-plugin-react-hooks:
+        specifier: ^7.0.0
+        version: 7.1.1(eslint@9.39.5)
+      eslint-plugin-react-refresh:
+        specifier: ^0.5.0
+        version: 0.5.4(eslint@9.39.5)
+      globals:
+        specifier: ^17.0.0
+        version: 17.11.0
+      typescript-eslint:
+        specifier: ^8.0.0
+        version: 8.68.0(eslint@9.39.5)(typescript@6.0.3)
 
   packages/features/reports:
     dependencies:
@@ -180,7 +207,11 @@ importers:
         specifier: ~6.0.3
         version: 6.0.3
 
-  packages/utils: {}
+  packages/utilities:
+    devDependencies:
+      typescript:
+        specifier: ~6.0.3
+        version: 6.0.3
 
 packages:
 

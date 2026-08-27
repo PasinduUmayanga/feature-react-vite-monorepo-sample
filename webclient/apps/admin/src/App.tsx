@@ -1,11 +1,17 @@
-import { useState } from 'react'
+import { lazy, Suspense, useState } from 'react'
 import { useDocumentTitle } from '@template/hooks'
 import type { LoginCredentials } from '@template/ui'
 import { AdminLoginPage } from './pages/AdminLoginPage'
-import { UserManagementPage } from './pages/UserManagementPage'
-import { UserReportsPage } from './pages/UserReportsPage'
 import type { AdminPage } from './components/molecules/AdminNavigation'
 import { AuthenticationError, authenticateAdmin, clearAdminSession, readAdminSession, storeAdminSession, type AdminSession } from './services/dummyJsonAuth'
+
+const UserManagementPage = lazy(async () => ({
+  default: (await import('./pages/UserManagementPage')).UserManagementPage,
+}))
+
+const UserReportsPage = lazy(async () => ({
+  default: (await import('./pages/UserReportsPage')).UserReportsPage,
+}))
 
 export function App() {
   const [session, setSession] = useState<AdminSession | null>(() => readAdminSession())
@@ -35,9 +41,15 @@ export function App() {
     setActivePage('users')
   }
 
-  if (session) return activePage === 'reports'
-    ? <UserReportsPage onNavigate={setActivePage} onSignOut={handleSignOut} />
-    : <UserManagementPage onNavigate={setActivePage} onSignOut={handleSignOut} />
+  if (session) {
+    return (
+      <Suspense fallback={<main className="admin-page" aria-busy="true">Loading workspace…</main>}>
+        {activePage === 'reports'
+          ? <UserReportsPage onNavigate={setActivePage} onSignOut={handleSignOut} />
+          : <UserManagementPage onNavigate={setActivePage} onSignOut={handleSignOut} />}
+      </Suspense>
+    )
+  }
 
   return <AdminLoginPage errorMessage={errorMessage} isSubmitting={isSubmitting} onSubmit={handleLogin} />
 }

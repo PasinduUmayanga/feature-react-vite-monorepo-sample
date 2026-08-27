@@ -60,6 +60,32 @@ const workspaceConfig = `packages:
   - packages/*
   - packages/features/*`
 
+const lintConfigCode = `// eslint.config.mjs
+import { createWorkspaceLintConfig } from '@template/eslint-config'
+
+export default createWorkspaceLintConfig()
+`
+
+const productionBuildCode = `// apps/admin/vite.config.ts
+export default defineConfig({
+  plugins: [react()],
+  build: {
+    target: 'es2022',
+    sourcemap: false,
+    cssCodeSplit: true,
+    reportCompressedSize: false,
+    chunkSizeWarningLimit: 250,
+  },
+})
+
+// webclient/package.json
+{
+  "scripts": {
+    "build": "pnpm -r --workspace-concurrency=4 --if-present build",
+    "bundle:report": "node scripts/report-bundle-size.mjs"
+  }
+}`
+
 const atomicFolderStructure = `apps/admin/src/            # same pattern for apps/web/src
 ├── components/
 │   ├── atoms/            # smallest UI elements
@@ -222,6 +248,17 @@ export function useFocusOnMount<T extends HTMLElement>() {
   return elementRef
 }`
 
+const utilitiesCode = `// packages/utilities/src/formatDate.ts
+export function formatDate(
+  value: Date | string,
+  options: Intl.DateTimeFormatOptions = { dateStyle: 'medium' },
+  locale = 'en',
+) {
+  const date = value instanceof Date ? value : new Date(value)
+  if (Number.isNaN(date.getTime())) return '—'
+  return new Intl.DateTimeFormat(locale, options).format(date)
+}`
+
 const hookLessons: Record<HookTopic, { label: string; title: string; description: string; file: string; code: string }> = {
   state: { label: 'useState', title: 'Keep local state in a reusable hook', description: 'useCounter owns a value that changes over time and returns a small, explicit API for consumers.', file: 'packages/hooks/src/useCounter.ts', code: counterHookCode },
   effect: { label: 'useEffect', title: 'Synchronize with external systems', description: 'useDocumentTitle wraps the effect that updates the browser tab and restores its previous title on cleanup.', file: 'packages/hooks/src/useDocumentTitle.ts', code: `// packages/hooks/src/useDocumentTitle.ts
@@ -253,7 +290,9 @@ const architectureTree = `webclient/
 └── packages/
     ├── api-client/                  # request transport and errors
     │   └── src/http-client.ts
+    ├── eslint-config/                # shared flat ESLint rules
     ├── hooks/                       # shared React hooks
+    ├── utilities/                   # date, formatting, validation helpers
     └── features/
         ├── reports/                 # report aggregation and query hooks
         └── users/                   # user domain owns server state
@@ -488,6 +527,15 @@ export function MonorepoTutorialPage() {
             <div className="code-card__header"><span>pnpm-workspace.yaml</span><button type="button" onClick={() => copyCommand('workspace', workspaceConfig)}>{copied === 'workspace' ? 'Copied' : 'Copy'}</button></div>
             <pre><code>{workspaceConfig}</code></pre>
           </article>
+          <article className="code-card code-card--large">
+            <div className="code-card__header"><span>Shared ESLint configuration</span><button type="button" onClick={() => copyCommand('lint-config', lintConfigCode)}>{copied === 'lint-config' ? 'Copied' : 'Copy'}</button></div>
+            <pre><code>{lintConfigCode}</code></pre>
+          </article>
+          <article className="code-card code-card--large">
+            <div className="code-card__header"><span>Production build policy</span><button type="button" onClick={() => copyCommand('production-build', productionBuildCode)}>{copied === 'production-build' ? 'Copied' : 'Copy'}</button></div>
+            <pre><code>{productionBuildCode}</code></pre>
+            <p>Use native route splitting for deferred screens, keep public source maps off, and measure gzip and Brotli output after every production build.</p>
+          </article>
         </div>
       </SetupTutorialPage>}
 
@@ -681,7 +729,15 @@ export function MonorepoTutorialPage() {
           </section>
 
           <section className="tutorial-step">
-            <TutorialStepHeading step="4" title="Centralize cache keys and reads">Query keys live beside the queries, so invalidation and cache updates cannot drift between screens.</TutorialStepHeading>
+            <TutorialStepHeading step="4" title="Share domain-neutral utilities">Keep date formatting, display formatting, and lightweight validation in <code>@template/utilities</code> so applications use consistent behavior.</TutorialStepHeading>
+            <article className="code-card">
+              <div className="code-card__header"><span>packages/utilities/src/formatDate.ts</span><button type="button" onClick={() => copyCommand('utilities', utilitiesCode)}>{copied === 'utilities' ? 'Copied' : 'Copy'}</button></div>
+              <pre><code>{utilitiesCode}</code></pre>
+            </article>
+          </section>
+
+          <section className="tutorial-step">
+            <TutorialStepHeading step="5" title="Centralize cache keys and reads">Query keys live beside the queries, so invalidation and cache updates cannot drift between screens.</TutorialStepHeading>
             <article className="code-card">
               <div className="code-card__header"><span>users query key + hook</span><button type="button" onClick={() => copyCommand('query-keys', queryKeysCode)}>{copied === 'query-keys' ? 'Copied' : 'Copy'}</button></div>
               <pre><code>{queryKeysCode}</code></pre>
@@ -689,7 +745,7 @@ export function MonorepoTutorialPage() {
           </section>
 
           <section className="tutorial-step">
-            <TutorialStepHeading step="5" title="Let mutations own cache changes">A create, update, or delete hook updates the relevant query cache. Pages stay focused on user interactions rather than cache plumbing.</TutorialStepHeading>
+            <TutorialStepHeading step="6" title="Let mutations own cache changes">A create, update, or delete hook updates the relevant query cache. Pages stay focused on user interactions rather than cache plumbing.</TutorialStepHeading>
             <article className="code-card">
               <div className="code-card__header"><span>create-user mutation</span><button type="button" onClick={() => copyCommand('mutation', mutationCode)}>{copied === 'mutation' ? 'Copied' : 'Copy'}</button></div>
               <pre><code>{mutationCode}</code></pre>
@@ -697,7 +753,7 @@ export function MonorepoTutorialPage() {
           </section>
 
           <section className="tutorial-step">
-            <TutorialStepHeading step="6" title="Build derived reports as their own feature">The reports feature reuses the users feature's public API to aggregate report data. Its demo role and status metrics reflect the mapped users adapter; a reporting service can replace this adapter without changing the admin page.</TutorialStepHeading>
+            <TutorialStepHeading step="7" title="Build derived reports as their own feature">The reports feature reuses the users feature's public API to aggregate report data. Its demo role and status metrics reflect the mapped users adapter; a reporting service can replace this adapter without changing the admin page.</TutorialStepHeading>
             <article className="code-card code-card--large">
               <div className="code-card__header"><span>packages/features/reports</span><button type="button" onClick={() => copyCommand('reports', reportsCode)}>{copied === 'reports' ? 'Copied' : 'Copy'}</button></div>
               <pre><code>{reportsCode}</code></pre>
@@ -705,7 +761,7 @@ export function MonorepoTutorialPage() {
           </section>
 
           <section className="tutorial-step">
-            <TutorialStepHeading step="7" title="Mount one Query client per application">Caching policy is application-owned, so the admin app supplies its own provider at the React root.</TutorialStepHeading>
+            <TutorialStepHeading step="8" title="Mount one Query client per application">Caching policy is application-owned, so the admin app supplies its own provider at the React root.</TutorialStepHeading>
             <article className="code-card">
               <div className="code-card__header"><span>apps/admin/src/main.tsx</span><button type="button" onClick={() => copyCommand('provider', providerCode)}>{copied === 'provider' ? 'Copied' : 'Copy'}</button></div>
               <pre><code>{providerCode}</code></pre>
@@ -713,7 +769,7 @@ export function MonorepoTutorialPage() {
           </section>
 
           <section className="tutorial-step">
-            <TutorialStepHeading step="8" title="Keep pages responsible for UI state">The page owns the editor panel and presentation decisions. The feature hooks own remote data, loading state, and mutations.</TutorialStepHeading>
+            <TutorialStepHeading step="9" title="Keep pages responsible for UI state">The page owns the editor panel and presentation decisions. The feature hooks own remote data, loading state, and mutations.</TutorialStepHeading>
             <article className="code-card code-card--large">
               <div className="code-card__header"><span>apps/admin/src/pages/UserManagementPage.tsx</span><button type="button" onClick={() => copyCommand('page-usage', pageUsageCode)}>{copied === 'page-usage' ? 'Copied' : 'Copy'}</button></div>
               <pre><code>{pageUsageCode}</code></pre>

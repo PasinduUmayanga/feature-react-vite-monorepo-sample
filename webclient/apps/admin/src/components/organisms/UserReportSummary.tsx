@@ -1,11 +1,12 @@
 import type { UserReport } from '@template/reports-feature'
+import { formatDate } from '@template/utilities'
 
 interface UserReportSummaryProps {
   report: UserReport
 }
 
 function formatGeneratedAt(value: string) {
-  return new Intl.DateTimeFormat('en', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(value))
+  return formatDate(value, { dateStyle: 'medium', timeStyle: 'short' })
 }
 
 export function UserReportSummary({ report }: UserReportSummaryProps) {

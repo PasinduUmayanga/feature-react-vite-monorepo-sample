@@ -1,6 +1,7 @@
 import { StatusBadge } from '../atoms/StatusBadge'
 import { UserActions } from '../molecules/UserActions'
 import type { User } from '@template/users-feature'
+import { formatDate } from '@template/utilities'
 
 interface UserTableProps {
   users: User[]
@@ -24,7 +25,7 @@ export function UserTable({ users, onView, onEdit, onDelete }: UserTableProps) {
               <td><strong>{user.name}</strong><span>{user.email}</span></td>
               <td>{user.role}</td>
               <td><StatusBadge status={user.status} /></td>
-              <td>{new Intl.DateTimeFormat('en', { dateStyle: 'medium' }).format(new Date(user.createdAt))}</td>
+              <td>{formatDate(user.createdAt)}</td>
               <td><UserActions user={user} onView={onView} onEdit={onEdit} onDelete={onDelete} /></td>
             </tr>
           ))}

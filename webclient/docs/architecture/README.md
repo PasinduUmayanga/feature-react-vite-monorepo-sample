@@ -7,7 +7,7 @@
 ```text
 apps/web     → public implementation tutorial
 apps/admin   → authenticated administration workspace
-packages/*   → shared UI, hooks, transport, and feature domains
+packages/*   → shared UI, hooks, linting, utilities, transport, and feature domains
 ```
 
 Applications own routing, application composition, browser configuration, and presentation. Shared packages expose explicit public APIs and must not be imported through relative filesystem paths.

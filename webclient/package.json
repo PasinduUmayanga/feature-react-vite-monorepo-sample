@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "pnpm --filter @template/web dev",
     "dev:admin": "pnpm --filter @template/admin dev",
-    "build": "pnpm --filter @template/api-client build && pnpm --filter @template/hooks build && pnpm --filter @template/users-feature build && pnpm --filter @template/reports-feature build && pnpm --filter @template/ui build && pnpm --filter @template/web build && pnpm --filter @template/admin build",
+    "build": "pnpm -r --workspace-concurrency=4 --if-present build",
+    "bundle:report": "node scripts/report-bundle-size.mjs",
     "lint": "eslint . --max-warnings 0",
     "lint:fix": "eslint . --fix",
     "typecheck": "pnpm -r --if-present typecheck",
@@ -19,6 +20,7 @@
     "pnpm": ">=10.0.0"
   },
   "devDependencies": {
+    "@template/eslint-config": "workspace:*",
     "@eslint/js": "^9.39.5",
     "eslint": "^9.39.5",
     "eslint-plugin-jsx-a11y": "^6.10.2",

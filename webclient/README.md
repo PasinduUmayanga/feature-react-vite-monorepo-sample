@@ -40,7 +40,9 @@ webclient/
 │  └─ admin/     Administration application
 ├─ packages/
 │  ├─ api-client/       Framework-neutral HTTP transport and errors
+│  ├─ eslint-config/    Shared flat ESLint configuration
 │  ├─ hooks/            Shared, domain-neutral React hooks
+│  ├─ utilities/        Date, formatting, and validation helpers
 │  ├─ features/reports/ User report types, aggregation, and query hooks
 │  ├─ features/users/   User API operations, query keys, and TanStack Query hooks
 │  └─ ui/               Components shared by web and admin
@@ -212,6 +214,14 @@ Build only one application:
 pnpm --filter @template/web build
 pnpm --filter @template/admin build
 ```
+
+Inspect the emitted JavaScript and CSS after a production build:
+
+```powershell
+pnpm bundle:report
+```
+
+The report includes raw, gzip, and Brotli sizes. The production build targets modern ES2022 browsers, uses content-hashed assets and CSS splitting, and does not publish browser source maps. See the [production build performance runbook](docs/runbooks/production-build-performance.md) for route-splitting and monitoring guidance.
 
 The production output is generated in each application's `dist` directory.
 

@@ -9,6 +9,8 @@ This directory is the frontend root: a React and Vite monorepo managed with pnpm
 - `packages/ui`: shared React components consumed by workspace applications.
 - `packages/api-client`: shared, framework-neutral HTTP transport and error handling.
 - `packages/hooks`: shared, domain-neutral React hooks consumed by workspace applications.
+- `packages/eslint-config`: shared flat ESLint configuration consumed by the workspace root.
+- `packages/utilities`: shared date, formatting, and validation helpers.
 - `packages/features/*`: feature-owned domain types, API operations, query keys, and TanStack Query hooks.
 - `docs/`: architecture decisions, runbooks, and API integration documentation for the workspace.
 - `pnpm-workspace.yaml`: workspace discovery and dependency build policy.
@@ -33,6 +35,7 @@ pnpm typecheck
 pnpm build
 pnpm preview
 pnpm clean
+pnpm bundle:report
 ```
 
 Target one workspace when appropriate:
@@ -56,6 +59,7 @@ pnpm --filter @template/ui <command>
 - Never edit generated files in `dist/` or dependency files in `node_modules/`.
 - Update the README and relevant `AGENTS.md` when commands, structure, or architectural conventions change.
 - Keep the public Web tutorial aligned with meaningful implementation changes. When a change affects architecture, package boundaries, APIs, tooling, developer workflow, or user-visible feature behavior, update the tutorial pages under `apps/web/src/pages/` with accurate, copyable code and the relevant file paths. Every tutorial lesson has its own hash route and page component under `apps/web/src/pages/tutorials/`; maintain those routes and the table of contents whenever its section structure changes. Routine internal refactors, dependency patch updates, and isolated styling fixes do not need a tutorial update unless they change the lesson or behavior.
+- Keep production output small by adding route-level lazy loading for substantial deferred screens, not for tiny components. Run `pnpm bundle:report` after production-build changes and investigate meaningful compressed-size regressions.
 
 ## Adding a workspace
 
