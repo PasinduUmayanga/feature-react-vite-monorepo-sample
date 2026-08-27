@@ -10,6 +10,7 @@ This directory is the frontend root: a React and Vite monorepo managed with pnpm
 - `packages/api-client`: shared, framework-neutral HTTP transport and error handling.
 - `packages/hooks`: shared, domain-neutral React hooks consumed by workspace applications.
 - `packages/features/*`: feature-owned domain types, API operations, query keys, and TanStack Query hooks.
+- `docs/`: architecture decisions, runbooks, and API integration documentation for the workspace.
 - `pnpm-workspace.yaml`: workspace discovery and dependency build policy.
 - `tsconfig.json`: root TypeScript project references.
 

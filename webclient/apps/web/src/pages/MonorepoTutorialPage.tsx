@@ -41,6 +41,7 @@ const appGuides = {
     folder: 'apps/web',
     createCommand: 'pnpm create vite apps/web --template react-ts',
     runCommand: 'pnpm --filter @template/web dev',
+    documentation: 'apps/web/README.md',
     purpose: 'Public-facing React application served by Vite.',
   },
   admin: {
@@ -49,6 +50,7 @@ const appGuides = {
     folder: 'apps/admin',
     createCommand: 'pnpm create vite apps/admin --template react-ts',
     runCommand: 'pnpm --filter @template/admin dev',
+    documentation: 'apps/admin/README.md',
     purpose: 'Administration application with its own routes and deployment.',
   },
 } as const
@@ -244,6 +246,10 @@ const architectureTree = `webclient/
 │       ├── .env                     # ignored, public local configuration
 │       ├── .env.example             # committed configuration contract
 │       └── src/config/environment.ts
+├── docs/
+│   ├── architecture/                 # ADRs and system design notes
+│   ├── runbooks/                     # operational procedures
+│   └── api/                          # API contracts and integration notes
 └── packages/
     ├── api-client/                  # request transport and errors
     │   └── src/http-client.ts
@@ -517,6 +523,7 @@ export function MonorepoTutorialPage() {
             <li><span>Create</span><code>{guide.createCommand}</code><button type="button" onClick={() => copyCommand('create', guide.createCommand)}>{copied === 'create' ? 'Copied' : 'Copy'}</button></li>
             <li><span>Name</span><code>"name": "{guide.packageName}"</code></li>
             <li><span>Share</span><code>"@template/ui": "workspace:*"</code></li>
+            <li><span>Docs</span><code>{guide.documentation}</code></li>
             <li><span>Run</span><code>{guide.runCommand}</code><button type="button" onClick={() => copyCommand('run', guide.runCommand)}>{copied === 'run' ? 'Copied' : 'Copy'}</button></li>
           </ol>
         </article>
