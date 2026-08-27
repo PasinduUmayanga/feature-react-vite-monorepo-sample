@@ -269,6 +269,8 @@ export function useCreateUser(usersApi: UsersApi) {
 }`
 
 const reportsCode = `// packages/features/reports/src/api/reports-client.ts
+// Demo note: role and status values reflect the mapped users adapter.
+// Replace this aggregation when the reporting API provides those fields.
 export function createReportsApi(baseUrl: string) {
   const usersApi = createUsersApi(baseUrl)
 
@@ -384,7 +386,7 @@ export function MonorepoTutorialPage() {
           <h1>From <code>pnpm init</code> to two focused apps.</h1>
           <p>Follow the structure used by this repository to create independent Web and Admin applications that consume one shared component package.</p>
           <div className="hero__actions">
-            <Button onClick={() => document.querySelector('#setup')?.scrollIntoView({ behavior: 'smooth' })}>Start the guide</Button>
+            <Button onClick={() => { window.location.hash = '/tutorials/setup' }}>Start the guide</Button>
             <a href="https://pnpm.io/workspaces" target="_blank" rel="noreferrer">pnpm workspace docs</a>
           </div>
         </div>
@@ -599,7 +601,7 @@ export function MonorepoTutorialPage() {
           </section>
 
           <section className="tutorial-step">
-            <TutorialStepHeading step="6" title="Build derived reports as their own feature">The reports feature reuses the users feature's public API to aggregate report data. A future reporting service can replace this adapter without changing the admin page.</TutorialStepHeading>
+            <TutorialStepHeading step="6" title="Build derived reports as their own feature">The reports feature reuses the users feature's public API to aggregate report data. Its demo role and status metrics reflect the mapped users adapter; a reporting service can replace this adapter without changing the admin page.</TutorialStepHeading>
             <article className="code-card code-card--large">
               <div className="code-card__header"><span>packages/features/reports</span><button type="button" onClick={() => copyCommand('reports', reportsCode)}>{copied === 'reports' ? 'Copied' : 'Copy'}</button></div>
               <pre><code>{reportsCode}</code></pre>

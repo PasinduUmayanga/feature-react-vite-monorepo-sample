@@ -1,4 +1,5 @@
 .report-content { display: grid; gap: 1.25rem; }
+.report-notice { margin: 0 0 1.25rem; border: 1px solid #d8c47b; border-radius: 0.8rem; padding: 0.9rem 1rem; color: #64511d; background: #fff9df; line-height: 1.55; }
 .report-stat-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
 .report-stat-grid article, .report-card { border: 1px solid #dbe4df; border-radius: 1rem; background: #fff; box-shadow: 0 14px 45px rgba(24, 47, 36, 0.05); }
 .report-stat-grid article { display: grid; gap: 0.5rem; padding: 1.25rem; }
