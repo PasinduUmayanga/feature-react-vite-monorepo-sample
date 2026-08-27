@@ -1,3 +1,3 @@
 export function AdminBrand() {
-  return <a className="brand" href="/" aria-label="Admin console home">Kepler / Admin</a>
+  return <a className="brand" href="/" aria-label="Kepler Admin home">Kepler Admin</a>
 }

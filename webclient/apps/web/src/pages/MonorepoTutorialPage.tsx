@@ -361,7 +361,7 @@ export function MonorepoTutorialPage() {
   return (
     <TutorialPageTemplate>
       <nav className="topbar" aria-label="Project navigation">
-        <a className="wordmark" href="#top">Kepler <span>Template</span></a>
+        <a className="wordmark" href="#top">Kepler <span>Web</span></a>
         <a href="#/tutorials/feature-queries">Feature queries</a>
       </nav>
 
