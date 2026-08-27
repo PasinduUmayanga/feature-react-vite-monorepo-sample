@@ -255,7 +255,7 @@ Server state belongs to a feature package, not individual screens. The admin app
 
 The current user directory is backed by DummyJSON for demonstration. DummyJSON simulates write operations without persisting them, so successful create, update, and delete operations update the TanStack Query cache for the current browser session. Replace the feature package's API adapter when a production users service is available.
 
-`@template/reports-feature` supplies the admin User Reports dashboard. Its initial query aggregates the mapped users data into totals, status and role distributions, and recent users; replace that aggregation with a dedicated reporting endpoint when one is available.
+`@template/reports-feature` supplies the admin User Reports dashboard. Its initial query aggregates the mapped users data into totals, status and role distributions, and recent users. DummyJSON does not provide this application's real role or status values, so those report metrics are explicitly marked as demo data; replace the aggregation with a dedicated reporting endpoint before using them operationally.
 
 ## Environment configuration
 

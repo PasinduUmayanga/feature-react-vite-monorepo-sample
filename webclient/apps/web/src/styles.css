@@ -12,7 +12,7 @@ a { color: inherit; }
 .tutorial-toc ol { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.45rem; margin: 0; padding: 0; list-style: none; }
 .tutorial-toc a { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 0.55rem; padding: 0.7rem; border: 1px solid transparent; border-radius: 0.8rem; color: #9daabe; text-decoration: none; transition: border-color 160ms ease, background 160ms ease, color 160ms ease, transform 160ms ease; }
 .tutorial-toc a:hover, .tutorial-toc a:focus-visible { border-color: rgba(142, 240, 207, 0.45); color: #f5f7fb; background: rgba(142, 240, 207, 0.08); transform: translateY(-1px); }
-.tutorial-toc a[aria-current="step"] { border-color: rgba(169, 178, 255, 0.5); color: #fff; background: linear-gradient(135deg, rgba(169, 178, 255, 0.2), rgba(142, 240, 207, 0.1)); }
+.tutorial-toc a[aria-current="page"] { border-color: rgba(169, 178, 255, 0.5); color: #fff; background: linear-gradient(135deg, rgba(169, 178, 255, 0.2), rgba(142, 240, 207, 0.1)); }
 .tutorial-toc a > span { color: #8ef0cf; font: 800 0.68rem ui-monospace, SFMono-Regular, Consolas, monospace; }
 .tutorial-toc strong { font-size: 0.82rem; }
 .tutorial-toc small { grid-column: 2; color: #77849a; font-size: 0.68rem; line-height: 1.35; }
