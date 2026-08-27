@@ -9,7 +9,7 @@ a { color: inherit; }
 .topbar > a:last-child { color: #aeb8c9; font-size: 0.88rem; text-decoration: none; }
 .tutorial-toc { width: min(1180px, calc(100% - 3rem)); margin: 1rem auto 0; padding: 0.85rem; border: 1px solid rgba(83, 102, 136, 0.45); border-radius: 1.1rem; background: rgba(16, 22, 32, 0.74); box-shadow: 0 16px 42px rgba(0, 0, 0, 0.16); backdrop-filter: blur(16px); }
 .tutorial-toc__eyebrow { display: block; margin: 0 0 0.65rem 0.35rem; color: #8ef0cf; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.13em; text-transform: uppercase; }
-.tutorial-toc ol { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.45rem; margin: 0; padding: 0; list-style: none; }
+.tutorial-toc ol { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0.45rem; margin: 0; padding: 0; list-style: none; }
 .tutorial-toc a { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 0.55rem; padding: 0.7rem; border: 1px solid transparent; border-radius: 0.8rem; color: #9daabe; text-decoration: none; transition: border-color 160ms ease, background 160ms ease, color 160ms ease, transform 160ms ease; }
 .tutorial-toc a:hover, .tutorial-toc a:focus-visible { border-color: rgba(142, 240, 207, 0.45); color: #f5f7fb; background: rgba(142, 240, 207, 0.08); transform: translateY(-1px); }
 .tutorial-toc a[aria-current="page"] { border-color: rgba(169, 178, 255, 0.5); color: #fff; background: linear-gradient(135deg, rgba(169, 178, 255, 0.2), rgba(142, 240, 207, 0.1)); }
@@ -18,7 +18,7 @@ a { color: inherit; }
 .tutorial-toc small { grid-column: 2; color: #77849a; font-size: 0.68rem; line-height: 1.35; }
 .wordmark { color: #fff; font-weight: 850; letter-spacing: -0.03em; text-decoration: none; }
 .wordmark span { color: #8ef0cf; }
-.hero, .setup-section, .project-section, .atomic-section, .shared-section, .architecture-section { width: min(1180px, calc(100% - 3rem)); margin: auto; }
+.hero, .setup-section, .project-section, .atomic-section, .shared-section, .hooks-section, .architecture-section { width: min(1180px, calc(100% - 3rem)); margin: auto; }
 .hero { min-height: 39rem; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(18rem, 0.75fr); align-items: center; gap: clamp(3rem, 8vw, 8rem); padding: 5rem 0; }
 .eyebrow, .section-heading > span { color: #8ef0cf; font-size: 0.74rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; }
 .hero h1 { max-width: 48rem; margin: 1rem 0 1.5rem; font-size: clamp(3rem, 7vw, 6.4rem); line-height: 0.93; letter-spacing: -0.065em; }
@@ -30,7 +30,7 @@ a { color: inherit; }
 .tree-card > span { display: block; margin-bottom: 0.4rem; color: #fff; }
 .tree-card__accent { color: #a9b2ff; }
 .tree-card__shared { color: #8ef0cf; }
-.setup-section, .project-section, .atomic-section, .shared-section, .architecture-section { padding: 6rem 0; border-top: 1px solid #202735; }
+.setup-section, .project-section, .atomic-section, .shared-section, .hooks-section, .architecture-section { padding: 6rem 0; border-top: 1px solid #202735; }
 .section-heading { max-width: 42rem; margin-bottom: 2.25rem; }
 .section-heading h2, .shared-section h2 { margin: 0.6rem 0 0.75rem; font-size: clamp(2.2rem, 5vw, 4rem); letter-spacing: -0.05em; }
 .section-heading p, .shared-section p { margin: 0; color: #99a5b8; line-height: 1.7; }
@@ -77,6 +77,13 @@ footer code { color: #8ef0cf; }
 .atomic-rule { margin: 1rem 0 0; padding: 1rem 1.2rem; border-left: 3px solid #8ef0cf; color: #aeb8c9; background: rgba(142, 240, 207, 0.06); line-height: 1.6; }
 .tutorial-source-rule { margin: 0 0 1.25rem; padding: 1rem 1.2rem; border: 1px solid rgba(169, 178, 255, 0.42); border-radius: 0.9rem; color: #c9d1df; background: rgba(169, 178, 255, 0.08); line-height: 1.6; }
 .tutorial-source-rule strong { color: #a9b2ff; }
+.hooks-playground { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; padding: clamp(1.25rem, 4vw, 2rem); border: 1px solid rgba(142, 240, 207, 0.35); border-radius: 1rem; background: linear-gradient(135deg, rgba(142, 240, 207, 0.1), rgba(169, 178, 255, 0.1)); }
+.hooks-playground span { color: #8ef0cf; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; }
+.hooks-playground h3 { margin: 0.25rem 0; color: #fff; font-size: clamp(3rem, 8vw, 5rem); line-height: 1; }
+.hooks-playground p { margin: 0; color: #aeb8c9; }
+.hooks-playground__actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.65rem; }
+.hooks-playground__actions > button:last-child { min-height: 2.75rem; border: 1px solid #65728a; border-radius: 0.65rem; padding: 0.65rem 0.9rem; color: #dbe2ee; background: transparent; cursor: pointer; }
+.hooks-playground__actions > button:last-child:hover, .hooks-playground__actions > button:last-child:focus-visible { border-color: #8ef0cf; color: #8ef0cf; }
 @media (max-width: 800px) {
   .hero { grid-template-columns: 1fr; min-height: auto; }
   .tree-card { width: 100%; max-width: 32rem; transform: none; }
@@ -86,7 +93,7 @@ footer code { color: #8ef0cf; }
 }
 
 @media (max-width: 560px) {
-  .topbar, .tutorial-toc, .hero, .setup-section, .project-section, .atomic-section, .shared-section, .architecture-section, footer { width: min(100% - 2rem, 1180px); }
+  .topbar, .tutorial-toc, .hero, .setup-section, .project-section, .atomic-section, .shared-section, .hooks-section, .architecture-section, footer { width: min(100% - 2rem, 1180px); }
   .topbar { min-height: 4rem; padding: 0.85rem 0; }
   .topbar a { min-height: 2.75rem; display: inline-flex; align-items: center; }
   .tutorial-toc { overflow-x: auto; padding: 0.65rem; -webkit-overflow-scrolling: touch; }
@@ -99,7 +106,10 @@ footer code { color: #8ef0cf; }
   .hero__actions, .live-sample { align-items: stretch; flex-direction: column; }
   .hero__actions button, .hero__actions a { min-height: 2.75rem; justify-content: center; text-align: center; }
   .tree-card { overflow-x: auto; padding: 1.25rem; font-size: 0.8rem; white-space: nowrap; }
-  .setup-section, .project-section, .atomic-section, .shared-section, .architecture-section { padding: 4rem 0; }
+  .setup-section, .project-section, .atomic-section, .shared-section, .hooks-section, .architecture-section { padding: 4rem 0; }
+  .hooks-playground { align-items: stretch; flex-direction: column; }
+  .hooks-playground__actions { justify-content: stretch; }
+  .hooks-playground__actions button { flex: 1; min-height: 2.75rem; }
   .section-heading { margin-bottom: 1.5rem; }
   .section-heading h2, .shared-section h2 { font-size: clamp(2rem, 11vw, 3rem); }
   .code-card__header { min-height: 2.75rem; gap: 0.75rem; }
@@ -124,7 +134,7 @@ footer code { color: #8ef0cf; }
 
 /* Tall, high-density Android phones such as Xiaomi 15 Ultra in Chrome. */
 @media (min-width: 390px) and (max-width: 430px) and (min-height: 800px) {
-  .topbar, .tutorial-toc, .hero, .setup-section, .project-section, .atomic-section, .shared-section, .architecture-section, footer {
+  .topbar, .tutorial-toc, .hero, .setup-section, .project-section, .atomic-section, .shared-section, .hooks-section, .architecture-section, footer {
     width: auto;
     margin-left: max(1rem, env(safe-area-inset-left));
     margin-right: max(1rem, env(safe-area-inset-right));
@@ -133,7 +143,7 @@ footer code { color: #8ef0cf; }
   .hero { min-height: calc(100dvh - 4rem); align-content: center; padding-block: 2.5rem; }
   .hero h1 { font-size: clamp(3rem, 13vw, 3.55rem); }
   .tree-card { max-height: 17rem; }
-  .setup-section, .project-section, .atomic-section, .shared-section, .architecture-section { padding-block: 3.5rem; }
+  .setup-section, .project-section, .atomic-section, .shared-section, .hooks-section, .architecture-section { padding-block: 3.5rem; }
   .code-card { border-radius: 0.8rem; }
   .tutorial-flow { gap: 1rem; }
   .tutorial-step__heading h3 { font-size: 1.15rem; }

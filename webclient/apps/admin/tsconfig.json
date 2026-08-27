@@ -21,6 +21,7 @@
   "include": ["src", "vite.config.ts"],
   "references": [
     { "path": "../../packages/api-client" },
+    { "path": "../../packages/hooks" },
     { "path": "../../packages/features/reports" },
     { "path": "../../packages/features/users" },
     { "path": "../../packages/ui" }

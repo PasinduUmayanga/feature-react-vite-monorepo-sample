@@ -41,6 +41,9 @@ importers:
       '@template/api-client':
         specifier: workspace:*
         version: link:../../packages/api-client
+      '@template/hooks':
+        specifier: workspace:*
+        version: link:../../packages/hooks
       '@template/reports-feature':
         specifier: workspace:*
         version: link:../../packages/features/reports
@@ -75,6 +78,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@template/hooks':
+        specifier: workspace:*
+        version: link:../../packages/hooks
       '@template/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -137,6 +143,19 @@ importers:
       '@template/api-client':
         specifier: workspace:*
         version: link:../../api-client
+      react:
+        specifier: '>=18'
+        version: 19.2.8
+    devDependencies:
+      '@types/react':
+        specifier: ^19.2.18
+        version: 19.2.18
+      typescript:
+        specifier: ~6.0.3
+        version: 6.0.3
+
+  packages/hooks:
+    dependencies:
       react:
         specifier: '>=18'
         version: 19.2.8
