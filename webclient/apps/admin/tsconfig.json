@@ -22,6 +22,7 @@
   "references": [
     { "path": "../../packages/api-client" },
     { "path": "../../packages/hooks" },
+    { "path": "../../packages/utilities" },
     { "path": "../../packages/features/reports" },
     { "path": "../../packages/features/users" },
     { "path": "../../packages/ui" }

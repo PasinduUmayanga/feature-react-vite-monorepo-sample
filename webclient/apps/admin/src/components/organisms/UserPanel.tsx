@@ -2,6 +2,7 @@ import { ActionButton } from '../atoms/ActionButton'
 import { StatusBadge } from '../atoms/StatusBadge'
 import { UserForm } from '../molecules/UserForm'
 import type { User, UserDraft } from '@template/users-feature'
+import { formatDate } from '@template/utilities'
 
 export type PanelState = { mode: 'create' } | { mode: 'view' | 'edit'; user: User }
 
@@ -28,7 +29,7 @@ export function UserPanel({ panel, isSaving, onClose, onSave }: UserPanelProps) 
             <div><dt>Email</dt><dd>{panel.user.email}</dd></div>
             <div><dt>Role</dt><dd>{panel.user.role}</dd></div>
             <div><dt>Status</dt><dd><StatusBadge status={panel.user.status} /></dd></div>
-            <div><dt>Created</dt><dd>{new Intl.DateTimeFormat('en', { dateStyle: 'long' }).format(new Date(panel.user.createdAt))}</dd></div>
+            <div><dt>Created</dt><dd>{formatDate(panel.user.createdAt, { dateStyle: 'long' })}</dd></div>
           </dl>
         ) : <UserForm user={panel.mode === 'edit' ? panel.user : undefined} isSaving={isSaving} onCancel={onClose} onSave={onSave} />}
       </section>

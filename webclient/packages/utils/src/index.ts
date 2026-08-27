@@ -1,1 +1,0 @@
-export { formatName } from "./formatName";
